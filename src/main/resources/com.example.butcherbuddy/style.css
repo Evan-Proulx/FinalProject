@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
+
+.background{
+   -fx-background-color: #4B0907;
+}
+
+.title-text {
+    -fx-font-family: 'Shrikhand';
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-padding-top: 40px;
+}
+
+.label-text{
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text: white;
+}
+
+.text-field{
+    -fx-max-width: 200px;
+    -fx-padding: 5px;
+
+    -fx-border-color: #333333;
+    -fx-border-width: 2;
+     -fx-border-radius: 1;
+    -fx-border-width: 2px;
+    -fx-background-color: #ecf0f1;
+}
+
+
+
+.button-style{
+-fx-background-color: #242424;
+    -fx-border-width: 2;
+    -fx-border-color: #ffffff;
+    -fx-font-family: 'Roboto Mono';
+    -fx-font-size: 10pt;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 2pt
+}
