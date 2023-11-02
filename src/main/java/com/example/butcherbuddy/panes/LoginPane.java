@@ -1,4 +1,4 @@
-package com.example.butcherbuddy;
+package com.example.butcherbuddy.panes;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
