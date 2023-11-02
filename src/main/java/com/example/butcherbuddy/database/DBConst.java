@@ -78,8 +78,4 @@ public class DBConst {
             INVENTORY_COLUMN_EXPIRY_DATE + " DATE, " +
             "FOREIGN KEY (" + INVENTORY_COLUMN_PRODUCT_ID + ")" +
                     " REFERENCES " + TABLE_PRODUCT + "(" + PRODUCT_COLUMN_ID +"));";
-
-
-
-
 }
