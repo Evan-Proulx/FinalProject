@@ -30,6 +30,17 @@ public class Database {
         }
     }
 
+    public static Database getInstance(){
+        if (instance == null){
+            instance = new Database();
+        }
+        return instance;
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
     /**
      * Takes database metadata and creates the table if it does not already exist
      *
