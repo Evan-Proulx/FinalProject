@@ -1,4 +1,13 @@
 package com.example.butcherbuddy.dao;
 
-public class ProductDAO {
+import com.example.butcherbuddy.pojo.Product;
+
+import java.util.ArrayList;
+
+public interface ProductDAO {
+    public ArrayList<Product> getAllProducts();
+    public Product getProduct(int id);
+    public void createProduct(Product product);
+    public void updateProduct(Product product);
+    public void deleteProduct(Product product);
 }
