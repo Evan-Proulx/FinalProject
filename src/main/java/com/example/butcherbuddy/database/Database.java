@@ -30,6 +30,14 @@ public class Database {
         }
     }
 
+    /**
+     * Takes database metadata and creates the table if it does not already exist
+     *
+     * @param tableName
+     * @param tableQuery
+     * @param connection
+     * @throws SQLException
+     */
     public void createTable(String tableName, String tableQuery, Connection connection) throws SQLException{
         Statement createTable;
         DatabaseMetaData md = connection.getMetaData();
