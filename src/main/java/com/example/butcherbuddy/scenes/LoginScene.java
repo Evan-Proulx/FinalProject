@@ -1,5 +1,7 @@
-package com.example.butcherbuddy;
+package com.example.butcherbuddy.scenes;
 
+import com.example.butcherbuddy.Const;
+import com.example.butcherbuddy.panes.LoginPane;
 import javafx.scene.Scene;
 
 public class LoginScene extends Scene {
