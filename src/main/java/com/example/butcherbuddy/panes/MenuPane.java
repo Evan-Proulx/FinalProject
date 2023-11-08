@@ -1,6 +1,8 @@
 package com.example.butcherbuddy.panes;
 
 
+import com.example.butcherbuddy.LaunchApp;
+import com.example.butcherbuddy.scenes.CreditsScene;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,10 +12,9 @@ import javafx.scene.text.Text;
 
 public class MenuPane extends BorderPane {
 
-    String btnSound = null;
-    int i = 0;
 
     public MenuPane() {
+        this.getStylesheets().add("com.example.butcherbuddy/style.css");
         Text projectName = new Text("Butcher Buddy");
         Button addButton = new Button("Add to Database");
         Button removeButton = new Button("Remove From Database");
@@ -45,7 +46,7 @@ public class MenuPane extends BorderPane {
         });
 
         exitButton.setOnMouseClicked(e->{
-            Platform.exit();
+            LaunchApp.mainStage.setScene(new CreditsScene());
         });
 
 

@@ -1,6 +1,9 @@
 package com.example.butcherbuddy.database;
 
 
+import com.example.butcherbuddy.database.DBConfig;
+import com.example.butcherbuddy.database.DBConst;
+
 import java.sql.*;
 public class Database {
 
@@ -60,3 +63,6 @@ public class Database {
         }
     }
 }
+
+
+

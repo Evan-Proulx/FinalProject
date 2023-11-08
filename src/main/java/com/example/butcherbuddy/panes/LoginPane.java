@@ -1,5 +1,8 @@
 package com.example.butcherbuddy.panes;
 
+import com.example.butcherbuddy.LaunchApp;
+import com.example.butcherbuddy.scenes.MenuScene;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -7,13 +10,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 
 public class LoginPane extends BorderPane {
     public LoginPane(){
@@ -21,6 +24,11 @@ public class LoginPane extends BorderPane {
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.TOP_CENTER);
+        vBox.getStyleClass().add("background");
+
+        HBox hBox = new HBox();
+        hBox.setSpacing(10);
+        hBox.setAlignment(Pos.CENTER);
         vBox.getStyleClass().add("background");
 
         Text title = new Text("Butcher Buddy");
@@ -48,8 +56,58 @@ public class LoginPane extends BorderPane {
         submitButton.setDefaultButton(true);
         submitButton.getStyleClass().add("button-style");
 
-        vBox.getChildren().addAll(title,usernameLabel,userName,passwordLabel,password,submitButton);
+        Image knife = new Image("com.example.butcherbuddy/images/Knife.png");
+        Image knife2 = new Image("com.example.butcherbuddy/images/Knife2.png");
+
+        ImageView imageView = new ImageView();
+        ImageView imageView2 = new ImageView();
+
+
+        imageView.setFitHeight(300);
+        imageView.setFitWidth(200);
+        imageView.setImage(knife);
+        imageView2.setFitHeight(300);
+        imageView2.setFitWidth(200);
+        imageView2.setImage(knife2);
+
+        hBox.getChildren().addAll(imageView, imageView2);
+        vBox.getChildren().addAll(title,usernameLabel,userName,passwordLabel,password,submitButton, hBox);
         this.setCenter(vBox);
+
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(2000), imageView);
+        translateTransition.setFromX(2000);
+        translateTransition.setFromY(0);
+        translateTransition.setToX(70);
+        translateTransition.setToY(0);
+
+        TranslateTransition translateTransition2 = new TranslateTransition(Duration.millis(2000), imageView2);
+        translateTransition2.setFromX(-2000);
+        translateTransition2.setFromY(0);
+        translateTransition2.setToX(-70);
+        translateTransition2.setToY(0);
+
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), title);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(.5);
+        fadeTransition.setCycleCount(Timeline.INDEFINITE);
+        fadeTransition.setAutoReverse(true);
+
+        ParallelTransition parallelTransition = new ParallelTransition();
+        parallelTransition.getChildren().addAll(
+                translateTransition,
+                translateTransition2
+        );
+        //parallelTransition.play();
+
+        SequentialTransition sequentialTransition = new SequentialTransition();
+        sequentialTransition.getChildren().addAll(
+                parallelTransition,
+                fadeTransition
+
+        );
+        sequentialTransition.play();
+
 
 
         EventHandler<ActionEvent> submitHandler = new EventHandler<ActionEvent>() {
@@ -62,6 +120,7 @@ public class LoginPane extends BorderPane {
 
                 if(usernameInput.equals("username") && passwordInput.equals("1234")){
                     title.setText(":)");
+                    LaunchApp.mainStage.setScene(new MenuScene());
                 }
             }
         };
