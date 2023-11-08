@@ -9,7 +9,6 @@ public class Database {
     private Connection connection = null;
 
     private Database(){
-        if(connection == null){
             try{
                 Class.forName("com.mysql.jbc.Driver");
                 connection = DriverManager.getConnection("jdbc:mysql://php.scweb.ca/"+ DBConfig.DB_NAME + "?useSSL=false", DBConfig.DB_USER, DBConfig.DB_PASS);
@@ -28,7 +27,6 @@ public class Database {
                 e.printStackTrace();
             }
         }
-    }
 
     public static Database getInstance(){
         if (instance == null){
