@@ -1,12 +1,12 @@
 package com.example.butcherbuddy.pojo;
 
-public class Order {
+public class Orders {
 
     private int id;
     private String date;
 
 
-    public Order(int id, String date) {
+    public Orders(int id, String date) {
         this.id = id;
         this.date = date;
     }
@@ -30,7 +30,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "Orders{" +
                 "id=" + id +
                 ", date='" + date + '\'' +
                 '}';
