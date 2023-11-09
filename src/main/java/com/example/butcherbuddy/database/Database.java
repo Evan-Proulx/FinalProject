@@ -13,7 +13,7 @@ public class Database {
 
     private Database(){
             try{
-                Class.forName("com.mysql.jbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection("jdbc:mysql://php.scweb.ca/"+ DBConfig.DB_NAME + "?useSSL=false", DBConfig.DB_USER, DBConfig.DB_PASS);
                 System.out.println("Connection Successfully created");
             }catch (Exception e){
