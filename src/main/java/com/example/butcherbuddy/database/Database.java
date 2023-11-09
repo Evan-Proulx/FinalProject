@@ -5,6 +5,9 @@ import com.example.butcherbuddy.database.DBConfig;
 import com.example.butcherbuddy.database.DBConst;
 
 import java.sql.*;
+
+import static com.example.butcherbuddy.database.DBConfig.*;
+
 public class Database {
 
     private static Database instance;
@@ -14,8 +17,11 @@ public class Database {
     private Database(){
             try{
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://php.scweb.ca/"+ DBConfig.DB_NAME + "?useSSL=false", DBConfig.DB_USER, DBConfig.DB_PASS);
-                System.out.println("Connection Successfully created");
+                connection = DriverManager
+                        .getConnection("jdbc:mysql://localhost/"+ DB_NAME +
+                                        "?serverTimezone=UTC",
+                                DB_USER,
+                                DB_PASS);                System.out.println("Connection Successfully created");
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -23,7 +29,7 @@ public class Database {
             try{
                 createTable(DBConst.TABLE_CATEGORY, DBConst.CREATE_TABLE_CATEGORY, connection);
                 createTable(DBConst.TABLE_PRODUCT, DBConst.CREATE_TABLE_PRODUCT, connection);
-                createTable(DBConst.TABLE_ORDER, DBConst.CREATE_TABLE_ORDER, connection);
+                createTable(DBConst.TABLE_ORDERS, DBConst.CREATE_TABLE_ORDERS, connection);
                 createTable(DBConst.TABLE_ORDER_ITEMS, DBConst.CREATE_TABLE_ORDER_ITEMS, connection);
                 createTable(DBConst.TABLE_INVENTORY, DBConst.CREATE_TABLE_INVENTORY, connection);
             }catch (Exception e){

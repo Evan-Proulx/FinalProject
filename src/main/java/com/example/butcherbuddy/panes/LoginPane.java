@@ -2,6 +2,7 @@ package com.example.butcherbuddy.panes;
 
 import com.example.butcherbuddy.LaunchApp;
 import com.example.butcherbuddy.scenes.MenuScene;
+import com.example.butcherbuddy.tables.*;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,6 +26,15 @@ public class LoginPane extends BorderPane {
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.TOP_CENTER);
         vBox.getStyleClass().add("background");
+
+
+        System.out.println("CREATING TABLE");
+        CategoryTable categoryTable = new CategoryTable();
+        ProductTable productTable = new ProductTable();
+        OrdersTable ordersTable = new OrdersTable();
+        OrderItemsTable orderItemsTable = new OrderItemsTable();
+        InventoryTable inventoryTable = new InventoryTable();
+
 
         HBox hBox = new HBox();
         hBox.setSpacing(10);
