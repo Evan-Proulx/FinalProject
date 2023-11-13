@@ -55,7 +55,7 @@ public class DBConst {
     public static final String CREATE_TABLE_ORDERS =
             "CREATE TABLE " + TABLE_ORDERS + " (" +
             ORDERS_COLUMN_ID + " int NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-            ORDERS_COLUMN_DATE + " DATE)";
+            ORDERS_COLUMN_DATE + " DATE";
 
     public static final String CREATE_TABLE_ORDER_ITEMS =
             "CREATE TABLE " + TABLE_ORDER_ITEMS + " (" +

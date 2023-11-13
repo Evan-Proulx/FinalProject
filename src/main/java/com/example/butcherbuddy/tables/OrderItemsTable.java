@@ -64,7 +64,21 @@ public class OrderItemsTable implements OrderItemsDAO {
 
     @Override
     public void createOrderItem(OrderItem orderItem) {
-
+        String query = "INSERT INTO " + DBConst.TABLE_ORDER_ITEMS+
+                "(" + DBConst.ORDER_ITEMS_COLUMN_ORDER_ID + ", " +
+                DBConst.ORDER_ITEMS_COLUMN_PRODUCT_ID + ", " +
+                DBConst.ORDER_ITEMS_COLUMN_QUANTITY + ", " +
+                DBConst.ORDER_ITEMS_COLUMN_PRICE + ") VALUES ('" +
+                orderItem.getOrderId() + "','" +
+                orderItem.getProductId() + "','" +
+                orderItem.getQuantity() + "','" +
+                orderItem.getPrice() + "')";
+        try{
+            db.getConnection().createStatement().execute(query);
+            System.out.println("Inserted Record");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

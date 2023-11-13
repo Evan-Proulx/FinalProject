@@ -1,14 +1,19 @@
 package com.example.butcherbuddy.pojo;
 
+import java.sql.Date;
+
 public class Orders {
 
     private int id;
-    private String date;
+    private Date date;
 
 
-    public Orders(int id, String date) {
+    public Orders(int id, Date date) {
         this.id = id;
-        this.date = date;
+        this.date = (Date) date;
+    }
+    public Orders(Date date){
+        this.date = (Date) date;
     }
 
 
@@ -20,11 +25,11 @@ public class Orders {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
