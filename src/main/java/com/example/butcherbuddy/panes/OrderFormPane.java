@@ -1,6 +1,8 @@
 package com.example.butcherbuddy.panes;
 
 import com.example.butcherbuddy.Const;
+import com.example.butcherbuddy.pojo.OrderItem;
+import com.example.butcherbuddy.pojo.Orders;
 import com.example.butcherbuddy.pojo.Product;
 import com.example.butcherbuddy.tables.*;
 import javafx.collections.FXCollections;
@@ -11,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,9 +57,11 @@ public class OrderFormPane extends BorderPane {
         });
 
 
-        //TODO add info to order tables
+        //Takes all items and sorts them into a Hashmap
+        //Items in Hashmap are updated into the tables
         submit.setOnMouseClicked(event -> {
             accessInputValues();
+            updateTables();
         });
 
     }
@@ -64,7 +69,7 @@ public class OrderFormPane extends BorderPane {
     //Arraylists that hold the comboboxes and spinners of each item
     private ArrayList<ComboBox<Product>> productList = new ArrayList<>();
     private ArrayList<Spinner<Integer>> quantityList = new ArrayList<>();
-
+    //HashMap holds The product as key and quantity as value of each item
     private Map<Product, Integer> itemMap = new HashMap<>();
 
     private void addNewItem(VBox container){
@@ -97,7 +102,7 @@ public class OrderFormPane extends BorderPane {
 
     /**
      * Loop through productList and quantityList and
-     * adds their values to an arrayList
+     * adds their values to a HashMap with the product as the key and quantity as value
      */
     private void accessInputValues(){
         for(int i=0;i<productList.size();i++){
@@ -105,8 +110,40 @@ public class OrderFormPane extends BorderPane {
             Product selectedProduct = comboProduct.getValue();
 
             Integer selectedQuantity = quantityList.get(i).getValue();
-            System.out.println(i+". Quantity: " + selectedQuantity + "\n" +
-                    "Product: " + selectedProduct);
+
+            itemMap.put(selectedProduct, selectedQuantity);
+        }
+        for(Map.Entry<Product, Integer> entry : itemMap.entrySet()){
+            System.out.println("Product: " + entry.getKey() + ", Quantity: " + entry.getValue());
+        }
+    }
+
+
+    /**
+     * Create the order table
+     * The createOrder method returns the tables id
+     *loop through the itemMap and set values for the key and value
+     * We create a new order item for each map entry
+     */
+    private void updateTables(){
+        long dateInMillis = System.currentTimeMillis();
+        Date todayDate = new Date(dateInMillis);
+        Orders order = new Orders(todayDate);
+        int orderId = ordersTable.createOrder(order);
+
+        for(Map.Entry<Product, Integer> entry : itemMap.entrySet()){
+            Product product = entry.getKey();
+            Integer quantity = entry.getValue();
+            double price = quantity*product.getPrice();
+            System.out.println(orderId + " " + product.getId() + " " + quantity + " " + price);
+
+            OrderItem orderItem = new OrderItem(
+                    orderId,
+                    product.getId(),
+                    quantity,
+                    price
+            );
+            orderItemsTable.createOrderItem(orderItem);
         }
     }
 }

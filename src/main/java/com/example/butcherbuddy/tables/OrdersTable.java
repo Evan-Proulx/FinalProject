@@ -25,7 +25,7 @@ public class OrdersTable implements OrdersDAO {
             while(data.next()){
                 orders.add(new Orders(
                         data.getInt(DBConst.ORDERS_COLUMN_ID),
-                        data.getString(DBConst.ORDERS_COLUMN_DATE)
+                        data.getDate(DBConst.ORDERS_COLUMN_DATE)
                 ));
             }
         }catch (Exception e){
@@ -44,7 +44,7 @@ public class OrdersTable implements OrdersDAO {
             if (data.next()){
                 Orders orders = new Orders(
                         data.getInt(DBConst.ORDERS_COLUMN_ID),
-                        data.getString(DBConst.ORDERS_COLUMN_DATE)
+                        data.getDate(DBConst.ORDERS_COLUMN_DATE)
                 );
                 return orders;
             }
@@ -55,8 +55,27 @@ public class OrdersTable implements OrdersDAO {
     }
 
     @Override
-    public void createOrder(Orders orders) {
+    public int createOrder(Orders orders) {
+        String query = "INSERT INTO " + DBConst.TABLE_ORDERS +
+                "(" + DBConst.ORDERS_COLUMN_DATE + ") VALUES ('" +
+                orders.getDate() + "')";
 
+        //executes the query then creates a resultset of keys(Auto-Incremented ids)
+        //If there are more than one row in the table we get and return the value of the first column(id)
+        try{
+            Statement createNewOrder = db.getConnection().createStatement();
+            createNewOrder.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet returnedKeys = createNewOrder.getGeneratedKeys();
+            if (returnedKeys.next()){
+                int generatedId = returnedKeys.getInt(1);
+
+                System.out.println("Inserted Record with id: " + generatedId);
+                return generatedId;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
