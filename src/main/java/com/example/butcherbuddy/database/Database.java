@@ -27,6 +27,7 @@ public class Database {
             }
 
             try{
+                createTable(DBConst.TABLE_LOGINS, DBConst.CREATE_TABLE_LOGINS, connection);
                 createTable(DBConst.TABLE_CATEGORY, DBConst.CREATE_TABLE_CATEGORY, connection);
                 createTable(DBConst.TABLE_PRODUCT, DBConst.CREATE_TABLE_PRODUCT, connection);
                 createTable(DBConst.TABLE_ORDERS, DBConst.CREATE_TABLE_ORDERS, connection);
@@ -59,7 +60,7 @@ public class Database {
     public void createTable(String tableName, String tableQuery, Connection connection) throws SQLException{
         Statement createTable;
         DatabaseMetaData md = connection.getMetaData();
-        ResultSet resultSet = md.getTables("eproulxproject", null, tableName, null);
+        ResultSet resultSet = md.getTables("njamrogproject", null, tableName, null);
         if (resultSet.next()){
             System.out.println(tableName + " Table already exists");
         }else{
