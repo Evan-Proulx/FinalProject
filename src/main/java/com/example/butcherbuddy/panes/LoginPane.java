@@ -1,7 +1,9 @@
 package com.example.butcherbuddy.panes;
 
 import com.example.butcherbuddy.LaunchApp;
+import com.example.butcherbuddy.pojo.Login;
 import com.example.butcherbuddy.scenes.MenuScene;
+import com.example.butcherbuddy.scenes.OrderFormScene;
 import com.example.butcherbuddy.tables.*;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
@@ -125,13 +127,27 @@ public class LoginPane extends BorderPane {
             public void handle(ActionEvent event) {
                 String usernameInput = userName.getText();
                 String passwordInput = password.getText();
+                LoginsTable loginsTable = new LoginsTable();
+                Login user = loginsTable.getLogin(usernameInput);
                 System.out.println("Username: " + usernameInput + "\n" +
                         "Password: " + passwordInput);
+                System.out.println("Database username: " + user.getUsername() +
+                        "\nDatabase password: " + user.getPassword());
 
-                if(usernameInput.equals("username") && passwordInput.equals("1234")){
-                    title.setText(":)");
-                    LaunchApp.mainStage.setScene(new MenuScene());
+
+
+                if(user.getUsername() == usernameInput && user.getPassword() == passwordInput){
+                    LaunchApp.mainStage.setScene(new OrderFormScene());
+                    System.out.println("User has been verified");
+                } else {
+                    System.out.println("User is unverified");
                 }
+
+                if (usernameInput == user.getUsername()){
+                    System.out.println("test");
+                }
+
+
             }
         };
 
