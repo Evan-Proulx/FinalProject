@@ -26,7 +26,6 @@ public class LoginsTable implements LoginsDAO {
 
             while(data.next()){
                 logins.add(new Login(
-                        data.getInt(DBConst.LOGINS_COLUMN_ID),
                         data.getString(DBConst.LOGINS_COLUMN_NAME),
                         data.getString(DBConst.LOGINS_COLUMN_PASSWORD)
                 ));
@@ -38,15 +37,14 @@ public class LoginsTable implements LoginsDAO {
     }
 
     @Override
-    public Login getLogin(String username) {
-        String query = "SELECT * FROM " + DBConst.TABLE_LOGINS + " WHERE " + DBConst.LOGINS_COLUMN_NAME  + " = '" + username + "'";
-        System.out.println(query);
+    public Login getLogin(String username, String password) {
+        String query = "SELECT * FROM " + DBConst.TABLE_LOGINS + " WHERE " + DBConst.LOGINS_COLUMN_NAME  + " = '" + username + "'" + " AND " + DBConst.LOGINS_COLUMN_PASSWORD + " = " + "'" + password + "'";
+        //System.out.println(query);
         try{
             Statement getLogin = db.getConnection().createStatement();
             ResultSet data = getLogin.executeQuery(query);
             if (data.next()){
                 Login login = new Login(
-                        data.getInt(DBConst.LOGINS_COLUMN_ID),
                         data.getString(DBConst.LOGINS_COLUMN_NAME),
                         data.getString(DBConst.LOGINS_COLUMN_PASSWORD)
                 );
@@ -60,8 +58,25 @@ public class LoginsTable implements LoginsDAO {
     }
 
     @Override
-    public void createLogin(Login login) {
+    public int createLogin(Login login) {
+        String query = "INSERT INTO " + DBConst.TABLE_LOGINS + " (`id`, `username`, `password`) VALUES (NULL, '" + login.getUsername() + "', '" + login.getPassword() + "');";
 
+        //executes the query then creates a resultset of keys(Auto-Incremented ids)
+        //If there are more than one row in the table we get and return the value of the first column(id)
+        try{
+            Statement createNewLogin = db.getConnection().createStatement();
+            createNewLogin.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet returnedKeys = createNewLogin.getGeneratedKeys();
+            if (returnedKeys.next()){
+                int generatedId = returnedKeys.getInt(1);
+
+                System.out.println("Inserted Record with id: " + generatedId);
+                return generatedId;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.butcherbuddy.panes;
 
 import com.example.butcherbuddy.LaunchApp;
 import com.example.butcherbuddy.pojo.Login;
+import com.example.butcherbuddy.pojo.OrderItem;
 import com.example.butcherbuddy.scenes.MenuScene;
 import com.example.butcherbuddy.scenes.OrderFormScene;
 import com.example.butcherbuddy.tables.*;
@@ -64,7 +65,7 @@ public class LoginPane extends BorderPane {
         password.setPromptText("Enter text here");
         password.getStyleClass().add("text-field");
 
-        Button submitButton = new Button("Login");
+        Button submitButton = new Button("Login or Sign Up");
         submitButton.setDefaultButton(true);
         submitButton.getStyleClass().add("button-style");
 
@@ -128,25 +129,23 @@ public class LoginPane extends BorderPane {
                 String usernameInput = userName.getText();
                 String passwordInput = password.getText();
                 LoginsTable loginsTable = new LoginsTable();
-                Login user = loginsTable.getLogin(usernameInput);
-                System.out.println("Username: " + usernameInput + "\n" +
-                        "Password: " + passwordInput);
-                System.out.println("Database username: " + user.getUsername() +
-                        "\nDatabase password: " + user.getPassword());
 
+                Login user = loginsTable.getLogin(usernameInput, passwordInput);
 
-
-                if(user.getUsername() == usernameInput && user.getPassword() == passwordInput){
-                    LaunchApp.mainStage.setScene(new OrderFormScene());
-                    System.out.println("User has been verified");
+                if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) { //if input textfields are not blank
+                    System.out.println("usernameInput: " + usernameInput + " | passwordInput: " + passwordInput);
+                    if (user == null) { //if user is NOT created in database
+                        System.out.println("User is not verified in database... creating account..");
+                        Login login = new Login(usernameInput, passwordInput);
+                        loginsTable.createLogin(login);
+                    } else {
+                        System.out.println("Hello " + user.getUsername() + "! And welcome to ButcherBuddy");
+                        System.out.println("-----------\nDatabase Information:" + user);
+                        LaunchApp.mainStage.setScene(new OrderFormScene());
+                    }
                 } else {
-                    System.out.println("User is unverified");
+                    System.out.println("Input text in proper text fields to create a login");
                 }
-
-                if (usernameInput == user.getUsername()){
-                    System.out.println("test");
-                }
-
 
             }
         };

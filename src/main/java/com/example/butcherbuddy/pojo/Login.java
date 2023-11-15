@@ -9,8 +9,7 @@ public class Login {
     private String password;
 
 
-    public Login(int id, String username, String password) {
-        this.id = id;
+    public Login(String username, String password) {
         this.username = username;
         this.password = password;
     }
