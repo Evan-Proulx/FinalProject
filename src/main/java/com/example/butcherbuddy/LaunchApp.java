@@ -13,7 +13,7 @@ public class LaunchApp extends Application {
     public void start(Stage stage) throws Exception {
         mainStage = stage;
         mainStage.setTitle("Butcher Buddy");
-        mainStage.setScene(new LoginScene());
+        mainStage.setScene(new OrderFormScene());
         mainStage.show();
         mainStage.setResizable(false);
     }
