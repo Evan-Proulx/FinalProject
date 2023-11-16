@@ -9,6 +9,15 @@ public class InventoryTab extends Tab {
     private InventoryTab(){
         BorderPane root = new BorderPane();
 
+
+
+
+
+
+
+
+
+
         this.setText("Inventory");
         this.setContent(root);
     }

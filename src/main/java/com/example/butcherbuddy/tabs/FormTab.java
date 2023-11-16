@@ -1,6 +1,7 @@
 package com.example.butcherbuddy.tabs;
 
 import com.example.butcherbuddy.Const;
+import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.OrderItem;
 import com.example.butcherbuddy.pojo.Orders;
 import com.example.butcherbuddy.pojo.Product;
@@ -154,7 +155,12 @@ public class FormTab extends Tab {
                     price
             );
             orderItemsTable.createOrderItem(orderItem);
+
         }
+
+        System.out.println(orderItemsTable.getAllOrderItems());
+
+
     }
 }
 
