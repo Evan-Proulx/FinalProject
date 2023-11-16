@@ -91,7 +91,7 @@ public class InventoryTable implements InventoryDAO {
 
     }
 
-    public void extractItemTableData(){
+    public Map<Integer, Inventory> extractItemTableData(){
         OrderItemsTable orderItemsTable = new OrderItemsTable();
 
         //Arraylist of orderItems for each record in the OrderItems table
@@ -119,17 +119,6 @@ public class InventoryTable implements InventoryDAO {
             }
         }
 
-        //Loop through the map and create inventory item for each entry
-        for (Map.Entry<Integer, Inventory> entry : inventoryMap.entrySet()){
-            int productId = entry.getKey();
-            Inventory inventoryItem = entry.getValue();
-
-            Inventory inventory = new Inventory(
-                    productId,
-                    inventoryItem.getQuantity(),
-                    inventoryItem.getTotalPrice()
-            );
-            createInventory(inventory);
-        }
+        return inventoryMap;
     }
 }
