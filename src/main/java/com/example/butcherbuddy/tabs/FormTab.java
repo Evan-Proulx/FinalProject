@@ -29,7 +29,7 @@ public class FormTab extends Tab {
     OrderItemsTable orderItemsTable = new OrderItemsTable();
     InventoryTable inventoryTable = new InventoryTable();
 
-    private FormTab(){
+    private FormTab() {
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -39,7 +39,7 @@ public class FormTab extends Tab {
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
         Button submit = new Button("Submit Order");
-        buttonHbox.getChildren().addAll(newItem,submit);
+        buttonHbox.getChildren().addAll(newItem, submit);
         buttonHbox.setAlignment(Pos.CENTER);
         vBox.getChildren().add(buttonHbox);
 
@@ -70,10 +70,11 @@ public class FormTab extends Tab {
     }
 
 
-    public static FormTab getInstance(){
-        if (instance == null){
+    public static FormTab getInstance() {
+        if (instance == null) {
             instance = new FormTab();
-        }return instance;
+        }
+        return instance;
     }
 
 
@@ -83,7 +84,7 @@ public class FormTab extends Tab {
     //HashMap holds The product as key and quantity as value of each item
     private Map<Product, Integer> itemMap = new HashMap<>();
 
-    private void addNewItem(VBox container){
+    private void addNewItem(VBox container) {
         VBox infoGroup = new VBox();
         infoGroup.setAlignment(Pos.CENTER);
         infoGroup.setSpacing(10);
@@ -94,13 +95,13 @@ public class FormTab extends Tab {
         ComboBox<Product> comboProduct = new ComboBox<>();
         comboProduct.setItems(FXCollections.observableArrayList(productTable.getAllProducts()));
         comboProduct.getSelectionModel().select(0);
-        infoGroup.getChildren().addAll(title,product, comboProduct);
+        infoGroup.getChildren().addAll(title, product, comboProduct);
 
         Text quantity = new Text("Quantity: ");
         Spinner<Integer> numberInput = new Spinner<>();
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 0, 1);
         numberInput.setValueFactory(valueFactory);
-        infoGroup.getChildren().addAll(quantity,numberInput);
+        infoGroup.getChildren().addAll(quantity, numberInput);
 
         container.setAlignment(Pos.TOP_CENTER);
         container.getChildren().add(infoGroup);
@@ -115,8 +116,8 @@ public class FormTab extends Tab {
      * Loop through productList and quantityList and
      * adds their values to a HashMap with the product as the key and quantity as value
      */
-    private void accessInputValues(){
-        for(int i=0;i<productList.size();i++){
+    private void accessInputValues() {
+        for (int i = 0; i < productList.size(); i++) {
             ComboBox<Product> comboProduct = productList.get(i);
             Product selectedProduct = comboProduct.getValue();
 
@@ -124,7 +125,7 @@ public class FormTab extends Tab {
 
             itemMap.put(selectedProduct, selectedQuantity);
         }
-        for(Map.Entry<Product, Integer> entry : itemMap.entrySet()){
+        for (Map.Entry<Product, Integer> entry : itemMap.entrySet()) {
             System.out.println("Product: " + entry.getKey() + ", Quantity: " + entry.getValue());
         }
     }
@@ -133,19 +134,19 @@ public class FormTab extends Tab {
     /**
      * Create the order table
      * The createOrder method returns the tables id
-     *loop through the itemMap and set values for the key and value
+     * loop through the itemMap and set values for the key and value
      * We create a new order item for each map entry
      */
-    private void updateTables(){
+    private void updateTables() {
         long dateInMillis = System.currentTimeMillis();
         Date todayDate = new Date(dateInMillis);
         Orders order = new Orders(todayDate);
         int orderId = ordersTable.createOrder(order);
 
-        for(Map.Entry<Product, Integer> entry : itemMap.entrySet()){
+        for (Map.Entry<Product, Integer> entry : itemMap.entrySet()) {
             Product product = entry.getKey();
             Integer quantity = entry.getValue();
-            double price = quantity*product.getPrice();
+            double price = quantity * product.getPrice();
             System.out.println(orderId + " " + product.getId() + " " + quantity + " " + price);
 
             OrderItem orderItem = new OrderItem(
@@ -160,19 +161,21 @@ public class FormTab extends Tab {
 
         Map<Integer, Inventory> inventoryMap = inventoryTable.extractItemTableData();
 
-        //Loop through the map and create inventory item for each entry
-        for (Map.Entry<Integer, Inventory> entry : inventoryMap.entrySet()){
-            int productId = entry.getKey();
-            Inventory inventoryItem = entry.getValue();
+        if (!inventoryMap.isEmpty()) {
+            //Loop through the map and create inventory item for each entry
+            for (Map.Entry<Integer, Inventory> entry : inventoryMap.entrySet()) {
+                int productId = entry.getKey();
+                Inventory inventoryItem = entry.getValue();
 
-            Inventory inventory = new Inventory(
-                    productId,
-                    inventoryItem.getQuantity(),
-                    inventoryItem.getTotalPrice()
-            );
-            inventoryTable.createInventory(inventory);
+                Inventory inventory = new Inventory(
+                        productId,
+                        inventoryItem.getQuantity(),
+                        inventoryItem.getTotalPrice()
+                );
+                inventoryTable.createInventory(inventory);
+                System.out.println("Inventory Item created: " + inventory);
+            }
         }
-        System.out.println(orderItemsTable.getAllOrderItems());
     }
 }
 
