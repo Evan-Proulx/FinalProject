@@ -112,6 +112,23 @@ public class InventoryTable implements InventoryDAO {
 
     }
 
+
+    public String getItemName(Inventory inventory) {
+        int productId = inventory.getProductId();
+        String query = "SELECT * FROM " + DBConst.TABLE_PRODUCT + " WHERE " + DBConst.PRODUCT_COLUMN_ID + " = " + productId;
+
+        try{
+            Statement getInventory = db.getConnection().createStatement();
+            ResultSet data = getInventory.executeQuery(query);
+                return data.getString(DBConst.PRODUCT_COLUMN_NAME);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
     public Map<Integer, Inventory> extractItemTableData(){
         OrderItemsTable orderItemsTable = new OrderItemsTable();
         InventoryTable inventoryTable = new InventoryTable();
