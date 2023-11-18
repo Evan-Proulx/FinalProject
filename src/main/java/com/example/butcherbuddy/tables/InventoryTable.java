@@ -130,23 +130,6 @@ public class InventoryTable implements InventoryDAO {
             productMap.put(productId, inventoryItem);
             inventoryMap.put(productId, inventoryItem);
         }
-        System.out.println("Items in inventory: " + productMap);
-
-        // productMap = [3, Inventory1, 7, inventory2, 9, Inventory3]
-        // orderitems = [item1 (id = 8), item2 (id = 4), item3 (id = 3]
-        //loop through order items. item1s id is not 3,7 or 9
-        //create new inventory object with its values
-        //loops again and does tehe same for item2
-        //loops again and item 3 matches inventory1
-        //create new inventory item and set it to the object of the matching one in the map
-        //set its quantity and price
-        //update inventory
-        //how do we know the item in productmap is a record in the inventory table
-        //ejejalk;jdf;jeajkljklfwed jklasdfjklfejklw ijoefjio
-        //before updating the inventory check if the row exists in the table otherwise create it?
-        //is the best way creating another map that just hold the values in inventory tablee
-        //should product map only contain new values? probabys
-
 
         //loop arraylist and set values
         //if there is more than item with the same id we add their prices and quantity
@@ -163,21 +146,26 @@ public class InventoryTable implements InventoryDAO {
                 System.out.println("Inventory map: " + productMap);
                 
             }else{
-                
                 Inventory inventoryItem = productMap.get(productId);
                 inventoryItem.setQuantity(inventoryItem.getQuantity()+quantity);
                 inventoryItem.setTotalPrice(inventoryItem.getTotalPrice()+price);
 
                 //if record exists in the table update it otherwise update the value in the map
-                if (inventoryMap.containsKey(productId)) {
-                    System.out.println("Inventory item: " + inventoryItem + "     (This is what is getting passed to update inventory(old inventory)");
-                    updateInventory(inventoryItem);
+                if (inventoryTable.getInventory(productId) != null) {
+                    inventoryTable.updateInventory(inventoryItem);
+                    productMap.remove(productId);
                 }else{
                     productMap.put(productId, inventoryItem);
                 }
             }
-
         }
+
+        //Removes any records in the product map that exist in the inventory map (prevents existing records from being added)
+        for (Map.Entry<Integer, Inventory> entry : inventoryMap.entrySet()) {
+            int productId = entry.getKey();
+            productMap.remove(productId);
+        }
+
         return productMap;
     }
 }
