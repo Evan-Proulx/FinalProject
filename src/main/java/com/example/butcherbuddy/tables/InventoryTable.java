@@ -164,7 +164,7 @@ public class InventoryTable implements InventoryDAO {
         for (OrderItem orderItem : orderItems) {
             int productId = orderItem.getProductId();
             int quantity = orderItem.getQuantity();
-            double itemPrice = orderItem.getPrice();
+            double itemPrice = orderItemsTable.getProductPrice(orderItem) * quantity;
 
             if (!productMap.containsKey(productId)) {
                 Inventory inventoryItem = new Inventory(productId, quantity, itemPrice);

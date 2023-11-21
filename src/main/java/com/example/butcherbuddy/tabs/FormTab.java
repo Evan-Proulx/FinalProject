@@ -152,8 +152,7 @@ public class FormTab extends Tab {
             OrderItem orderItem = new OrderItem(
                     orderId,
                     product.getId(),
-                    quantity,
-                    price
+                    quantity
             );
             orderItemsTable.createOrderItem(orderItem);
 

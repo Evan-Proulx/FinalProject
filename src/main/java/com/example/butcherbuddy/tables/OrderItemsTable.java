@@ -25,11 +25,9 @@ public class OrderItemsTable implements OrderItemsDAO {
 
             while(data.next()){
                 orderItems.add(new OrderItem(
-                        data.getInt(DBConst.ORDER_ITEMS_COLUMN_ID),
                         data.getInt(DBConst.ORDER_ITEMS_COLUMN_ORDER_ID),
                         data.getInt(DBConst.ORDER_ITEMS_COLUMN_PRODUCT_ID),
-                        data.getInt(DBConst.ORDER_ITEMS_COLUMN_QUANTITY),
-                        data.getDouble(DBConst.ORDER_ITEMS_COLUMN_PRICE)
+                        data.getInt(DBConst.ORDER_ITEMS_COLUMN_QUANTITY)
                 ));
             }
         }catch (Exception e){
@@ -48,11 +46,9 @@ public class OrderItemsTable implements OrderItemsDAO {
 
             if(data.next()){
                 OrderItem orderItem = new OrderItem(
-                        data.getInt(DBConst.ORDER_ITEMS_COLUMN_ID),
                         data.getInt(DBConst.ORDER_ITEMS_COLUMN_ORDER_ID),
                         data.getInt(DBConst.ORDER_ITEMS_COLUMN_PRODUCT_ID),
-                        data.getInt(DBConst.ORDER_ITEMS_COLUMN_QUANTITY),
-                        data.getDouble(DBConst.ORDER_ITEMS_COLUMN_PRICE)
+                        data.getInt(DBConst.ORDER_ITEMS_COLUMN_QUANTITY)
                 );
                 return orderItem;
             }
@@ -62,17 +58,35 @@ public class OrderItemsTable implements OrderItemsDAO {
         return null;
     }
 
+    public double getProductPrice(OrderItem orderItem){
+        int id = orderItem.getProductId();
+        String query = "SELECT "+ DBConst.PRODUCT_COLUMN_PRICE +" FROM " + DBConst.TABLE_PRODUCT + " WHERE " + DBConst.PRODUCT_COLUMN_ID + " = " + id;
+
+        try{
+            Statement getOrderItems = db.getConnection().createStatement();
+            ResultSet data = getOrderItems.executeQuery(query);
+
+            if (data.next()){
+                double productPrice = data.getInt(DBConst.PRODUCT_COLUMN_PRICE);
+
+                return productPrice;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
+
     @Override
     public void createOrderItem(OrderItem orderItem) {
         String query = "INSERT INTO " + DBConst.TABLE_ORDER_ITEMS+
                 "(" + DBConst.ORDER_ITEMS_COLUMN_ORDER_ID + ", " +
                 DBConst.ORDER_ITEMS_COLUMN_PRODUCT_ID + ", " +
-                DBConst.ORDER_ITEMS_COLUMN_QUANTITY + ", " +
-                DBConst.ORDER_ITEMS_COLUMN_PRICE + ") VALUES ('" +
+                DBConst.ORDER_ITEMS_COLUMN_QUANTITY + ") VALUES ('" +
                 orderItem.getOrderId() + "','" +
                 orderItem.getProductId() + "','" +
-                orderItem.getQuantity() + "','" +
-                orderItem.getPrice() + "')";
+                orderItem.getQuantity() + "')";
         try{
             db.getConnection().createStatement().execute(query);
             System.out.println("Inserted Record");

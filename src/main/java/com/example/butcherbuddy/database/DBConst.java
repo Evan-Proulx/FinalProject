@@ -71,11 +71,10 @@ public class DBConst {
 
     public static final String CREATE_TABLE_ORDER_ITEMS =
             "CREATE TABLE " + TABLE_ORDER_ITEMS + " (" +
-                    ORDER_ITEMS_COLUMN_ID + " int NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                     ORDER_ITEMS_COLUMN_ORDER_ID + " int NOT NULL, " +
                     ORDER_ITEMS_COLUMN_PRODUCT_ID + " int NOT NULL, " +
                     ORDER_ITEMS_COLUMN_QUANTITY + " int NOT NULL, " +
-                    ORDER_ITEMS_COLUMN_PRICE + " DECIMAL(7,2), " +
+                    "CONSTRAINT " + ORDER_ITEMS_COLUMN_ID + " PRIMARY KEY (" + ORDER_ITEMS_COLUMN_ORDER_ID + ", " + ORDER_ITEMS_COLUMN_PRODUCT_ID + "), " +
                     "FOREIGN KEY (" + ORDER_ITEMS_COLUMN_ORDER_ID + ")" +
                     " REFERENCES " + TABLE_ORDERS + "(" + ORDERS_COLUMN_ID +"),"+
                     "FOREIGN KEY (" + ORDER_ITEMS_COLUMN_PRODUCT_ID + ")" +
