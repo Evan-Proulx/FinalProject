@@ -53,8 +53,12 @@ public class LoginPane extends BorderPane {
         usernameLabel.setFill(Color.WHITE);
         usernameLabel.getStyleClass().add("label-text");
 
+        Text loginOrSignupLabel = new Text("Login or Sign Up!");
+        loginOrSignupLabel.setFill(Color.WHITE);
+        loginOrSignupLabel.getStyleClass().add("big-label-text");
+
         TextField userName = new TextField();
-        userName.setPromptText("Enter text here");
+        userName.setPromptText("Enter Username");
         userName.getStyleClass().add("text-field");
 
         Text passwordLabel = new Text("Enter Password");
@@ -62,12 +66,16 @@ public class LoginPane extends BorderPane {
         passwordLabel.getStyleClass().add("label-text");
 
         PasswordField password = new PasswordField();
-        password.setPromptText("Enter text here");
+        password.setPromptText("Enter Password");
         password.getStyleClass().add("text-field");
 
-        Button submitButton = new Button("Login or Sign Up");
+        Button submitButton = new Button("Login");
         submitButton.setDefaultButton(true);
         submitButton.getStyleClass().add("button-style");
+
+        Text errorLabel = new Text(":)");
+        errorLabel.setOpacity(0);
+        errorLabel.getStyleClass().add("label-text");
 
         Image knife = new Image("com.example.butcherbuddy/images/Knife.png");
         Image knife2 = new Image("com.example.butcherbuddy/images/Knife2.png");
@@ -84,9 +92,8 @@ public class LoginPane extends BorderPane {
         imageView2.setImage(knife2);
 
         hBox.getChildren().addAll(imageView, imageView2);
-        vBox.getChildren().addAll(title,usernameLabel,userName,passwordLabel,password,submitButton, hBox);
+        vBox.getChildren().addAll(title,loginOrSignupLabel,usernameLabel,userName,passwordLabel,password,submitButton,errorLabel, hBox);
         this.setCenter(vBox);
-
 
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(2000), imageView);
         translateTransition.setFromX(2000);
@@ -135,16 +142,19 @@ public class LoginPane extends BorderPane {
                 if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) { //if input textfields are not blank
                     System.out.println("usernameInput: " + usernameInput + " | passwordInput: " + passwordInput);
                     if (user == null) { //if user is NOT created in database
-                        System.out.println("User is not verified in database... creating account..");
+                        errorLabel.setOpacity(1);
                         Login login = new Login(usernameInput, passwordInput);
+                        errorLabel.setFill(Color.GREEN);
+                        errorLabel.setText("Created account, please login again");
                         loginsTable.createLogin(login);
                     } else {
-                        System.out.println("Hello " + user.getUsername() + "! And welcome to ButcherBuddy");
                         System.out.println("-----------\nDatabase Information:" + user);
                         LaunchApp.mainStage.setScene(new OrderFormScene());
                     }
                 } else {
-                    System.out.println("Input text in proper text fields to create a login");
+                    errorLabel.setOpacity(1);
+                    errorLabel.setFill(Color.RED);
+                    errorLabel.setText("Please enter your username and password in the required fields");
                 }
 
             }

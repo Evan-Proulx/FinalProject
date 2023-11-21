@@ -14,6 +14,12 @@
 }
 
 .label-text{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text: white;
+}
+
+.big-label-text{
     -fx-font-size: 22px;
     -fx-font-weight: bold;
     -fx-text: white;
