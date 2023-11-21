@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface LoginsDAO {
     public ArrayList<Login> getAllLogins();
-    public Login getLogin(String username, String password);
+    public Login getLogin(String username);
     public int createLogin(Login Login);
     public void updateLogin(Login Login);
     public void deleteLogin(Login Login);

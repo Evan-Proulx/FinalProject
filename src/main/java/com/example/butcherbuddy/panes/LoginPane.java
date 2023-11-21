@@ -137,19 +137,26 @@ public class LoginPane extends BorderPane {
                 String passwordInput = password.getText();
                 LoginsTable loginsTable = new LoginsTable();
 
-                Login user = loginsTable.getLogin(usernameInput, passwordInput);
+                Login user = loginsTable.getLogin(usernameInput);
 
-                if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) { //if input textfields are not blank
-                    System.out.println("usernameInput: " + usernameInput + " | passwordInput: " + passwordInput);
-                    if (user == null) { //if user is NOT created in database
+
+                if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) {
+                    if (user == null) {
                         errorLabel.setOpacity(1);
                         Login login = new Login(usernameInput, passwordInput);
                         errorLabel.setFill(Color.GREEN);
-                        errorLabel.setText("Created account, please login again");
+                        errorLabel.setText("Username not found, created account. Please re-login");
                         loginsTable.createLogin(login);
                     } else {
-                        System.out.println("-----------\nDatabase Information:" + user);
-                        LaunchApp.mainStage.setScene(new OrderFormScene());
+                        if (usernameInput.equals(user.getUsername()) && passwordInput.equals(user.getPassword())) {
+                            System.out.println("-----------\nDatabase Information:" + user);
+                            LaunchApp.mainStage.setScene(new OrderFormScene());
+                        } else {
+                            errorLabel.setOpacity(1);
+                            errorLabel.setFill(Color.RED);
+                            errorLabel.setText("Password incorrect for user: " + user.getUsername());
+                            System.out.println("password Input: " + passwordInput + "\nuser password: " + user.getPassword());
+                        }
                     }
                 } else {
                     errorLabel.setOpacity(1);
@@ -157,6 +164,31 @@ public class LoginPane extends BorderPane {
                     errorLabel.setText("Please enter your username and password in the required fields");
                 }
 
+
+
+//                if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) {
+//                    if (user != null) {
+//                        if (passwordInput.equals(user.getPassword())) {
+//                            System.out.println("-----------\nDatabase Information:" + user);
+//                            LaunchApp.mainStage.setScene(new OrderFormScene());
+//                        } else {
+//                            errorLabel.setOpacity(1);
+//                            errorLabel.setFill(Color.RED);
+//                            errorLabel.setText("Please enter the correct password for the user: " + user.getUsername());
+//                            System.out.println("password Input: " + passwordInput + "\nuser password: " + user.getPassword());
+//                        }
+//                    } else {
+//                        errorLabel.setOpacity(1);
+//                        Login login = new Login(usernameInput, passwordInput);
+//                        errorLabel.setFill(Color.GREEN);
+//                        errorLabel.setText("Created account, please login again");
+//                        loginsTable.createLogin(login);
+//                    }
+//                } else {
+//                    errorLabel.setOpacity(1);
+//                    errorLabel.setFill(Color.RED);
+//                    errorLabel.setText("Please enter your username and password in the required fields");
+//                }
             }
         };
 

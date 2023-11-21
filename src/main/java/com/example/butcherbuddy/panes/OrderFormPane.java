@@ -1,9 +1,12 @@
 package com.example.butcherbuddy.panes;
 
 import com.example.butcherbuddy.Const;
+import com.example.butcherbuddy.LaunchApp;
 import com.example.butcherbuddy.pojo.OrderItem;
 import com.example.butcherbuddy.pojo.Orders;
 import com.example.butcherbuddy.pojo.Product;
+import com.example.butcherbuddy.scenes.LoginScene;
+import com.example.butcherbuddy.scenes.OrderFormScene;
 import com.example.butcherbuddy.tables.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -33,6 +36,11 @@ public class OrderFormPane extends BorderPane {
         vBox.setSpacing(30);
         vBox.setLayoutX(Const.SCREEN_WIDTH);
 
+        Button Logout = new Button("Logout");
+        HBox LogoutBox = new HBox();
+        LogoutBox.getChildren().addAll(Logout);
+        LogoutBox.setAlignment(Pos.TOP_LEFT);
+
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
         Button submit = new Button("Submit Order");
@@ -40,11 +48,12 @@ public class OrderFormPane extends BorderPane {
         buttonHbox.setAlignment(Pos.CENTER);
         vBox.getChildren().add(buttonHbox);
 
+
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setFitToHeight(true);
 
-        HBox hbox = new HBox(scrollPane);
+        HBox hbox = new HBox(scrollPane, LogoutBox);
         hbox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
         hbox.setAlignment(Pos.CENTER);
         hbox.setSpacing(30);
@@ -56,6 +65,9 @@ public class OrderFormPane extends BorderPane {
             addNewItem(vBox);
         });
 
+        Logout.setOnMouseClicked(event -> {
+            LaunchApp.mainStage.setScene(new LoginScene());
+        });
 
         //Takes all items and sorts them into a Hashmap
         //Items in Hashmap are updated into the tables
