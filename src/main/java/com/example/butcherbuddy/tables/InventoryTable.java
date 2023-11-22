@@ -88,25 +88,21 @@ public class InventoryTable implements InventoryDAO {
 
     @Override
     public void updateInventory(Inventory newInventory) {
-        Inventory oldInventory = getInventory(newInventory.getProductId());
-        System.out.println("Old inventory: " + oldInventory);
-        int oldQuantity = oldInventory.getQuantity();
-        double oldTotalPrice = oldInventory.getTotalPrice();
-
-        //Add values from old record and new together
-        int newQuantity = oldQuantity + (newInventory.getQuantity() - oldQuantity);
-        double newTotalPrice = oldTotalPrice + (newInventory.getTotalPrice() - oldQuantity);
+    int inventoryId = newInventory.getProductId();
+    int inventoryQuantity = newInventory.getQuantity();
+    double inventoryTotalPrice = newInventory.getTotalPrice();
 
         //Update record with new values
         String updateQuery = "UPDATE " + DBConst.TABLE_INVENTORY + " SET " +
-                DBConst.INVENTORY_COLUMN_QUANTITY + " = " + newQuantity + ", " +
-                DBConst.INVENTORY_COLUMN_TOTAL_PRICE + " = " + newTotalPrice +
-                " WHERE " + DBConst.INVENTORY_COLUMN_PRODUCT_ID + " = " + oldInventory.getProductId();
+                DBConst.INVENTORY_COLUMN_QUANTITY + " = " + inventoryQuantity + ", " +
+                DBConst.INVENTORY_COLUMN_TOTAL_PRICE + " = " + inventoryTotalPrice +
+                " WHERE " + DBConst.INVENTORY_COLUMN_PRODUCT_ID + " = " + inventoryId;
         try {
             Statement statement = db.getConnection().createStatement();
             statement.executeUpdate(updateQuery);
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Update Query unsuccessful");
         }
     }
 
@@ -139,7 +135,7 @@ public class InventoryTable implements InventoryDAO {
     }
 
 
-    public Map<Integer, Inventory> extractItemTableData() {
+    public void syncWithOrders() {
         OrderItemsTable orderItemsTable = new OrderItemsTable();
         InventoryTable inventoryTable = new InventoryTable();
 
@@ -147,116 +143,64 @@ public class InventoryTable implements InventoryDAO {
         ArrayList<OrderItem> orderItems = orderItemsTable.getAllOrderItems();
         ArrayList<Inventory> inventoryItems = inventoryTable.getAllInventories();
 
-        //hashmap that stores Integer id as key and
-        //Inventory with prodID, quantity, and totalprice as value
-        Map<Integer, Inventory> productMap = new HashMap<>();
-        Map<Integer, Inventory> inventoryMap = new HashMap<>();
+        //hashmaps that stores Integer id as key and
+        //Integer quantity as value
+        Map<Integer, Integer> productMap = new HashMap<>();
+        Map<Integer, Integer> inventoryMap = new HashMap<>();
         //add all existing Inventory records into the map
         for (Inventory inventoryItem : inventoryItems) {
             int productId = inventoryItem.getProductId();
-            productMap.put(productId, inventoryItem);
-            inventoryMap.put(productId, inventoryItem);
+            int quantity = inventoryItem.getQuantity();
+            inventoryMap.put(productId, quantity);
         }
 
-        //loop arraylist and set values
-        //if there is more than item with the same id we add their prices and quantity
-        //if the item is new we create a new instance of the item in the map
+        //If an item in the arraylist matches a value
+        // in the map add their quantities together.
+        // Update the product map with new quantity
         for (OrderItem orderItem : orderItems) {
             int productId = orderItem.getProductId();
             int quantity = orderItem.getQuantity();
-            double itemPrice = orderItemsTable.getProductPrice(orderItem) * quantity;
 
-            if (!productMap.containsKey(productId)) {
-                Inventory inventoryItem = new Inventory(productId, quantity, itemPrice);
-                productMap.put(productId, inventoryItem);
-            } else {
-                Inventory inventoryItem = productMap.get(productId);
-                inventoryItem.setQuantity(inventoryItem.getQuantity() + quantity);
-                inventoryItem.setTotalPrice(inventoryItem.getTotalPrice() + itemPrice);
+            if (productMap.containsKey(productId)) {
+                quantity += productMap.get(productId);
+            }
+            productMap.put(productId, quantity);
+        }
 
-                //if record exists in the table update it otherwise update the value in the map
-                if (inventoryTable.getInventory(productId) != null) {
-                    inventoryTable.updateInventory(inventoryItem);
-                    productMap.remove(productId);
-                } else {
-                    productMap.put(productId, inventoryItem);
+        //If an entry in the productmap has a matching key in the inventorymap
+        //check if they are the same value. If so keep teh inventory item as it was
+        //otherwise add their quantities together
+        for (Map.Entry<Integer, Integer> entry : productMap.entrySet()) {
+            int productKey = entry.getKey();
+            int productQuantity = entry.getValue();
+
+            if (inventoryMap.containsKey(productKey)){
+                int inventoryQuantity = inventoryMap.get(productKey);
+
+                if (productQuantity != inventoryQuantity){
+                    inventoryQuantity += productQuantity-inventoryQuantity;
                 }
+                inventoryMap.put(productKey, inventoryQuantity);
+            }else{
+                inventoryMap.put(productKey, productQuantity);
             }
         }
 
-        //Removes any records in the product map that exist in the inventory map (prevents existing records from being added)
-        for (Map.Entry<Integer, Inventory> entry : inventoryMap.entrySet()) {
-            int productId = entry.getKey();
-            productMap.remove(productId);
-        }
+        //If the entry in the inventory map exists in the table
+        // update it otherwise create a new value
+        for (Map.Entry<Integer, Integer> entry : inventoryMap.entrySet()) {
+            int inventoryKey = entry.getKey();
+            int inventoryQuantity = entry.getValue();
+            double totalPrice = orderItemsTable.getProductPrice(inventoryKey)*inventoryQuantity;
 
-        System.out.println("Product map" + productMap);
-        return productMap;
+            Inventory inventory = new Inventory(inventoryKey, inventoryQuantity,totalPrice);
+
+            if (getInventory(inventoryKey) != null){
+                updateInventory(inventory);
+            }
+            else{
+                createInventory(inventory);
+            }
+        }
     }
 }
-
-
-
-
-//public void extractItemTableData() {
-//        OrderItemsTable orderItemsTable = new OrderItemsTable();
-//        InventoryTable inventoryTable = new InventoryTable();
-//
-//        // ArrayList of orderItems for each record in the OrderItems table
-//        ArrayList<OrderItem> orderItems = orderItemsTable.getAllOrderItems();
-//        ArrayList<Inventory> inventoryItems = inventoryTable.getAllInventories();
-//
-//        // HashMap that stores Integer id as key and
-//        // Inventory with prodID, quantity, and total price as value
-//        Map<Integer, Inventory> inventoryMap = new HashMap<>();
-//
-//        // Populate the inventoryMap with existing Inventory records
-//        for (Inventory inventoryItem : inventoryItems) {
-//            int productId = inventoryItem.getProductId();
-//            inventoryMap.put(productId, inventoryItem);
-//        }
-//
-//        // Loop through orderItems and update quantities and prices
-//        for (OrderItem orderItem : orderItems) {
-//            int productId = orderItem.getProductId();
-//            int quantity = orderItem.getQuantity();
-//            double price = orderItem.getPrice();
-//
-//            // Check if the productId exists in the orderItems map
-//            if (inventoryMap.containsKey(productId)) {
-//                Inventory inventoryItem = inventoryMap.get(productId);
-//
-//                // Update quantities and prices
-//                inventoryItem.setQuantity(inventoryItem.getQuantity() + quantity);
-//                inventoryItem.setTotalPrice(inventoryItem.getTotalPrice() + price);
-//
-//                // Remove the processed orderItem
-//                orderItems.remove(orderItem);
-//            }
-//        }
-//
-//        // Process remaining orderItems
-//        for (OrderItem orderItem : orderItems) {
-//            int productId = orderItem.getProductId();
-//            int quantity = orderItem.getQuantity();
-//            double price = orderItem.getPrice();
-//
-//            // Create a new Inventory item
-//            Inventory inventoryItem = new Inventory(productId, quantity, price);
-//
-//            // Check if the productId exists in the inventoryMap
-//            if (inventoryMap.containsKey(productId)) {
-//                // Check if the existing inventory is different from the new one
-//                if (!inventoryMap.get(productId).equals(inventoryItem)) {
-//                    // Delete the existing inventory and create a new one
-//                    inventoryTable.deleteInventory(inventoryMap.get(productId));
-//                    inventoryTable.createInventory(inventoryItem);
-//                }
-//            } else {
-//                // If productId doesn't exist, create a new inventory
-//                inventoryTable.createInventory(inventoryItem);
-//            }
-//        }
-//    }
-//}
-

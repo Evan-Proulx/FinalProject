@@ -158,23 +158,7 @@ public class FormTab extends Tab {
 
         }
 
-        Map<Integer, Inventory> inventoryMap = inventoryTable.extractItemTableData();
-
-        if (!inventoryMap.isEmpty()) {
-            //Loop through the map and create inventory item for each entry
-            for (Map.Entry<Integer, Inventory> entry : inventoryMap.entrySet()) {
-                int productId = entry.getKey();
-                Inventory inventoryItem = entry.getValue();
-
-                Inventory inventory = new Inventory(
-                        productId,
-                        inventoryItem.getQuantity(),
-                        inventoryItem.getTotalPrice()
-                );
-                inventoryTable.createInventory(inventory);
-                System.out.println("Inventory Item created: " + inventory);
-            }
-        }
+        inventoryTable.syncWithOrders();
     }
 }
 

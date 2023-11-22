@@ -58,8 +58,7 @@ public class OrderItemsTable implements OrderItemsDAO {
         return null;
     }
 
-    public double getProductPrice(OrderItem orderItem){
-        int id = orderItem.getProductId();
+    public double getProductPrice(int id){
         String query = "SELECT "+ DBConst.PRODUCT_COLUMN_PRICE +" FROM " + DBConst.TABLE_PRODUCT + " WHERE " + DBConst.PRODUCT_COLUMN_ID + " = " + id;
 
         try{
