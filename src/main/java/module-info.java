@@ -4,7 +4,7 @@ module com.example.butcherbuddy {
     requires java.sql;
 
 
-    opens com.example.butcherbuddy to javafx.fxml;
+    opens com.example.butcherbuddy.pojo to javafx.base;
     exports com.example.butcherbuddy;
     exports com.example.butcherbuddy.panes;
     opens com.example.butcherbuddy.panes to javafx.fxml;

@@ -16,6 +16,11 @@ public class Inventory {
         this.totalPrice = totalPrice;
         this.expiryDate = expiryDate;
     }
+    public Inventory(int productId, int quantity, double totalPrice) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+    }
 
 
     public int getId() {
