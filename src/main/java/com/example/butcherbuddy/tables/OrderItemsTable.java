@@ -66,8 +66,7 @@ public class OrderItemsTable implements OrderItemsDAO {
             ResultSet data = getOrderItems.executeQuery(query);
 
             if (data.next()){
-                double productPrice = data.getInt(DBConst.PRODUCT_COLUMN_PRICE);
-
+                double productPrice = data.getDouble(DBConst.PRODUCT_COLUMN_PRICE);
                 return productPrice;
             }
         }catch (Exception e){
