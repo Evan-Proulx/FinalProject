@@ -41,3 +41,8 @@
     -fx-text-fill: #fff;
     -fx-border-radius: 2pt
 }
+
+.alert-text{
+    -fx-text: red;
+    -fx-font-weight: bold;
+}

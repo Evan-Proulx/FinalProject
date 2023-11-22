@@ -1,6 +1,7 @@
 package com.example.butcherbuddy.tabs;
 
 import com.example.butcherbuddy.Const;
+import com.example.butcherbuddy.UpdateTables;
 import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.OrderItem;
 import com.example.butcherbuddy.pojo.Orders;
@@ -28,6 +29,7 @@ public class FormTab extends Tab {
     OrdersTable ordersTable = new OrdersTable();
     OrderItemsTable orderItemsTable = new OrderItemsTable();
     InventoryTable inventoryTable = new InventoryTable();
+    UpdateTables updateTables = new UpdateTables();
 
     private FormTab() {
         VBox vBox = new VBox();
@@ -62,7 +64,7 @@ public class FormTab extends Tab {
         //Items in Hashmap are updated into the tables
         submit.setOnMouseClicked(event -> {
             accessInputValues();
-            updateTables();
+            updateTables.updateTables(itemMap);
         });
 
         this.setText("Order Form");
@@ -130,35 +132,5 @@ public class FormTab extends Tab {
         }
     }
 
-
-    /**
-     * Create the order table
-     * The createOrder method returns the tables id
-     * loop through the itemMap and set values for the key and value
-     * We create a new order item for each map entry
-     */
-    private void updateTables() {
-        long dateInMillis = System.currentTimeMillis();
-        Date todayDate = new Date(dateInMillis);
-        Orders order = new Orders(todayDate);
-        int orderId = ordersTable.createOrder(order);
-
-        for (Map.Entry<Product, Integer> entry : itemMap.entrySet()) {
-            Product product = entry.getKey();
-            Integer quantity = entry.getValue();
-            double price = quantity * product.getPrice();
-            System.out.println(orderId + " " + product.getId() + " " + quantity + " " + price);
-
-            OrderItem orderItem = new OrderItem(
-                    orderId,
-                    product.getId(),
-                    quantity
-            );
-            orderItemsTable.createOrderItem(orderItem);
-
-        }
-
-        inventoryTable.syncWithOrders();
-    }
 }
 

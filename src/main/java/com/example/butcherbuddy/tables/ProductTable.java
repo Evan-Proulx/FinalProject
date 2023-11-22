@@ -60,7 +60,20 @@ public class ProductTable implements ProductDAO {
 
     @Override
     public void createProduct(Product product) {
+        String query = "INSERT INTO " + DBConst.TABLE_PRODUCT +
+                "(" + DBConst.PRODUCT_COLUMN_NAME + ", " +
+                DBConst.PRODUCT_COLUMN_PRICE + ", " +
+                DBConst.PRODUCT_COLUMN_CATEGORY + ") VALUES ('" +
+                product.getName() + "','" +
+                product.getPrice() + "','" +
+                product.getCategory() + "')";
 
+        try {
+            db.getConnection().createStatement().execute(query);
+            System.out.println("Inserted Record");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
