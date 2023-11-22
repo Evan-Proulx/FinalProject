@@ -13,6 +13,11 @@ public class Product {
         this.price = price;
         this.category = category;
     }
+    public Product(String name, double price, int category) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+    }
 
 
     public int getId() {

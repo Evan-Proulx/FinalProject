@@ -19,11 +19,11 @@ public class InventoryTab extends Tab {
 
     InventoryTable inventoryTable = new InventoryTable();
 
-    private InventoryTab(){
+    private InventoryTab() {
         BorderPane root = new BorderPane();
 
         ArrayList<Inventory> inventoryItems = inventoryTable.getAllInventories();
-        
+
         ObservableList<Inventory> inventoryData = FXCollections.observableArrayList();
 
         TableView<Inventory> tableView = new TableView<>();
@@ -47,9 +47,11 @@ public class InventoryTab extends Tab {
         this.setText("Inventory");
         this.setContent(root);
     }
-    public static InventoryTab getInstance(){
-        if (instance == null){
+
+    public static InventoryTab getInstance() {
+        if (instance == null) {
             instance = new InventoryTab();
-        }return instance;
+        }
+        return instance;
     }
 }
