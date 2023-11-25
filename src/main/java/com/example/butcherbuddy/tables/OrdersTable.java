@@ -60,7 +60,7 @@ public class OrdersTable implements OrdersDAO {
                 "(" + DBConst.ORDERS_COLUMN_DATE + ") VALUES ('" +
                 orders.getDate() + "')";
 
-        //executes the query then creates a resultset of keys(Auto-Incremented ids)
+        //executes the query then creates a resultSet of keys(Auto-Incremented ids)
         //If there are more than one row in the table we get and return the value of the first column(id)
         try{
             Statement createNewOrder = db.getConnection().createStatement();

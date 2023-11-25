@@ -20,7 +20,7 @@ public class UpdateTables {
      * The createOrder method returns the tables id
      * loop through the itemMap and set values for the key and value
      * We create a new order item for each map entry
-     */
+     */ 
     public void updateTables(Map<Product, Integer> itemMap) {
         long dateInMillis = System.currentTimeMillis();
         Date todayDate = new Date(dateInMillis);
@@ -39,7 +39,6 @@ public class UpdateTables {
                     quantity
             );
             orderItemsTable.createOrderItem(orderItem);
-
         }
 
         inventoryTable.syncWithOrders();

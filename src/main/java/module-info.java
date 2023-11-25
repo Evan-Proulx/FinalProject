@@ -10,4 +10,5 @@ module com.example.butcherbuddy {
     opens com.example.butcherbuddy.panes to javafx.fxml;
     exports com.example.butcherbuddy.scenes;
     opens com.example.butcherbuddy.scenes to javafx.fxml;
+    exports com.example.butcherbuddy.pojo;
 }

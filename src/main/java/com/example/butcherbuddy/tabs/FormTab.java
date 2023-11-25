@@ -3,34 +3,18 @@ package com.example.butcherbuddy.tabs;
 import com.example.butcherbuddy.Const;
 import com.example.butcherbuddy.OrderLogic;
 import com.example.butcherbuddy.UpdateTables;
-import com.example.butcherbuddy.pojo.Inventory;
-import com.example.butcherbuddy.pojo.OrderItem;
-import com.example.butcherbuddy.pojo.Orders;
 import com.example.butcherbuddy.pojo.Product;
-import com.example.butcherbuddy.tables.*;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
-import java.sql.Date;
-import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class FormTab extends Tab {
     OrderLogic orderLogic = new OrderLogic();
     private static FormTab instance;
-
-    CategoryTable categoryTable = new CategoryTable();
-    ProductTable productTable = new ProductTable();
-    OrdersTable ordersTable = new OrdersTable();
-    OrderItemsTable orderItemsTable = new OrderItemsTable();
-    InventoryTable inventoryTable = new InventoryTable();
     UpdateTables updateTables = new UpdateTables();
 
     private FormTab() {
