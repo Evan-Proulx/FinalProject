@@ -1,6 +1,7 @@
 package com.example.butcherbuddy.tabs;
 
 import com.example.butcherbuddy.Const;
+import com.example.butcherbuddy.OrderLogic;
 import com.example.butcherbuddy.UpdateTables;
 import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.OrderItem;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FormTab extends Tab {
+    OrderLogic orderLogic = new OrderLogic();
     private static FormTab instance;
 
     CategoryTable categoryTable = new CategoryTable();
@@ -56,14 +58,14 @@ public class FormTab extends Tab {
 
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
-            addNewItem(vBox);
+            orderLogic.addNewItem(vBox);
         });
 
 
         //Takes all items and sorts them into a Hashmap
         //Items in Hashmap are updated into the tables
         submit.setOnMouseClicked(event -> {
-            accessInputValues();
+            Map<Product, Integer> itemMap = orderLogic.accessInputValues();
             updateTables.updateTables(itemMap);
         });
 
@@ -77,59 +79,6 @@ public class FormTab extends Tab {
             instance = new FormTab();
         }
         return instance;
-    }
-
-
-    //Arraylists that hold the comboboxes and spinners of each item
-    private ArrayList<ComboBox<Product>> productList = new ArrayList<>();
-    private ArrayList<Spinner<Integer>> quantityList = new ArrayList<>();
-    //HashMap holds The product as key and quantity as value of each item
-    private Map<Product, Integer> itemMap = new HashMap<>();
-
-    private void addNewItem(VBox container) {
-        VBox infoGroup = new VBox();
-        infoGroup.setAlignment(Pos.CENTER);
-        infoGroup.setSpacing(10);
-        infoGroup.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        Text title = new Text("Create an Order");
-        Text product = new Text("Product:");
-        ComboBox<Product> comboProduct = new ComboBox<>();
-        comboProduct.setItems(FXCollections.observableArrayList(productTable.getAllProducts()));
-        comboProduct.getSelectionModel().select(0);
-        infoGroup.getChildren().addAll(title, product, comboProduct);
-
-        Text quantity = new Text("Quantity: ");
-        Spinner<Integer> numberInput = new Spinner<>();
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 0, 1);
-        numberInput.setValueFactory(valueFactory);
-        infoGroup.getChildren().addAll(quantity, numberInput);
-
-        container.setAlignment(Pos.TOP_CENTER);
-        container.getChildren().add(infoGroup);
-
-        //Add combobox and spinner to arraylist
-        productList.add(comboProduct);
-        quantityList.add(numberInput);
-    }
-
-
-    /**
-     * Loop through productList and quantityList and
-     * adds their values to a HashMap with the product as the key and quantity as value
-     */
-    private void accessInputValues() {
-        for (int i = 0; i < productList.size(); i++) {
-            ComboBox<Product> comboProduct = productList.get(i);
-            Product selectedProduct = comboProduct.getValue();
-
-            Integer selectedQuantity = quantityList.get(i).getValue();
-
-            itemMap.put(selectedProduct, selectedQuantity);
-        }
-        for (Map.Entry<Product, Integer> entry : itemMap.entrySet()) {
-            System.out.println("Product: " + entry.getKey() + ", Quantity: " + entry.getValue());
-        }
     }
 
 }
