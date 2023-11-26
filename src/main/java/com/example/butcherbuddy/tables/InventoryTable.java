@@ -15,6 +15,8 @@ import java.util.Map;
 
 public class InventoryTable implements InventoryDAO {
 
+    private static InventoryTable instance;
+
     Database db = Database.getInstance();
     ArrayList<Inventory> pieData;
     ArrayList<Inventory> inventories;
@@ -86,9 +88,9 @@ public class InventoryTable implements InventoryDAO {
 
     @Override
     public void updateInventory(Inventory newInventory) {
-    int inventoryId = newInventory.getProductId();
-    int inventoryQuantity = newInventory.getQuantity();
-    double inventoryTotalPrice = newInventory.getTotalPrice();
+        int inventoryId = newInventory.getProductId();
+        int inventoryQuantity = newInventory.getQuantity();
+        double inventoryTotalPrice = newInventory.getTotalPrice();
 
         //Update record with new values
         String updateQuery = "UPDATE " + DBConst.TABLE_INVENTORY + " SET " +
@@ -172,14 +174,14 @@ public class InventoryTable implements InventoryDAO {
             int productKey = entry.getKey();
             int productQuantity = entry.getValue();
 
-            if (inventoryMap.containsKey(productKey)){
+            if (inventoryMap.containsKey(productKey)) {
                 int inventoryQuantity = inventoryMap.get(productKey);
 
-                if (productQuantity != inventoryQuantity){
-                    inventoryQuantity += productQuantity-inventoryQuantity;
+                if (productQuantity != inventoryQuantity) {
+                    inventoryQuantity += productQuantity - inventoryQuantity;
                 }
                 inventoryMap.put(productKey, inventoryQuantity);
-            }else{
+            } else {
                 inventoryMap.put(productKey, productQuantity);
             }
         }
@@ -189,16 +191,22 @@ public class InventoryTable implements InventoryDAO {
         for (Map.Entry<Integer, Integer> entry : inventoryMap.entrySet()) {
             int inventoryKey = entry.getKey();
             int inventoryQuantity = entry.getValue();
-            double totalPrice = orderItemsTable.getProductPrice(inventoryKey)*inventoryQuantity;
+            double totalPrice = orderItemsTable.getProductPrice(inventoryKey) * inventoryQuantity;
 
-            Inventory inventory = new Inventory(inventoryKey, inventoryQuantity,totalPrice);
+            Inventory inventory = new Inventory(inventoryKey, inventoryQuantity, totalPrice);
 
-            if (getInventory(inventoryKey) != null){
+            if (getInventory(inventoryKey) != null) {
                 updateInventory(inventory);
-            }
-            else{
+            } else {
                 createInventory(inventory);
             }
         }
+    }
+
+    public static InventoryTable getInstance() {
+        if (instance == null) {
+            instance = new InventoryTable();
+        }
+        return instance;
     }
 }
