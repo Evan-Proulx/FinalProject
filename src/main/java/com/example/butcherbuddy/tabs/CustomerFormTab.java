@@ -5,27 +5,39 @@ import com.example.butcherbuddy.OrderLogic;
 import com.example.butcherbuddy.UpdateTables;
 import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.Product;
-import com.example.butcherbuddy.tables.InventoryTable;
+import com.example.butcherbuddy.tables.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class FormTab extends Tab {
+public class CustomerFormTab extends Tab {
+
     OrderLogic orderLogic = new OrderLogic();
-    private static FormTab instance;
+    private static CustomerFormTab instance;
     UpdateTables updateTables = new UpdateTables();
+
+    Text alertText = new Text("");
+
+
+    ArrayList<String> names;
+    ArrayList<Double> values;
+    InventoryTable inventoryTable = new InventoryTable();
+    ArrayList<Inventory> inventoryItems = inventoryTable.getAllInventories();
 
     private PieChart chart;
 
-    private FormTab() {
+    private CustomerFormTab() {
 
         chart = new PieChart();
         chart.setTitle("All inventory Products");
@@ -37,13 +49,14 @@ public class FormTab extends Tab {
         vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
         vBox.setSpacing(30);
         vBox.setLayoutX(Const.SCREEN_WIDTH);
+        VBox ordersvBox = new VBox();
 
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
         Button submit = new Button("Submit Order");
         buttonHbox.getChildren().addAll(newItem, submit);
         buttonHbox.setAlignment(Pos.CENTER);
-        vBox.getChildren().add(buttonHbox);
+        vBox.getChildren().addAll(buttonHbox, alertText, ordersvBox);
 
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -54,21 +67,19 @@ public class FormTab extends Tab {
         hbox.setAlignment(Pos.CENTER);
         hbox.setSpacing(30);
 
+        alertText.setVisible(false);
+        alertText.setFill(Color.RED);
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
-            orderLogic.addNewItem(vBox);
+            orderLogic.addNewItem(ordersvBox);
         });
 
-
-        //Takes all items and sorts them into a Hashmap
-        //Items in Hashmap are updated into the tables
         submit.setOnMouseClicked(event -> {
-            Map<Product, Integer> itemMap = orderLogic.accessInputValues();
-            updateTables.updateTables(itemMap);
-            createChart();
+            submitOrder();
+            //ordersvBox.getChildren().clear();
         });
 
-        this.setText("Order Form");
+        this.setText("Customer Order Form");
         this.setContent(hbox);
         createChart();
     }
@@ -89,13 +100,25 @@ public class FormTab extends Tab {
         chart.setData(chartData);
     }
 
+    //Takes all items and sorts them into a Hashmap
+    //Items in Hashmap are updated into the tables
+    private void submitOrder(){
+        Map<Product, Integer> itemMap = orderLogic.accessInputValues();
+        String statusName = updateTables.updateCustomerTables(itemMap);
+        if (alertText.isVisible()){alertText.setVisible(false);}
+        if (statusName != null){
+            alertText.setText("Item: " + statusName + " [More items ordered than in inventory!]");
+            alertText.setVisible(true);
+        } else {
+            createChart();
+        }
+    }
 
-    public static FormTab getInstance() {
+    public static CustomerFormTab getInstance() {
         if (instance == null) {
-            instance = new FormTab();
+            instance = new CustomerFormTab();
         }
         return instance;
     }
 
 }
-

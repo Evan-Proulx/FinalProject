@@ -31,7 +31,7 @@ public class AddProductTab extends Tab {
         textFieldVbox.getChildren().addAll(nameLabel, nameTextField);
         textFieldVbox.setAlignment(Pos.CENTER);
 
-        Label categoryLabel = new Label("Category ");
+        Label categoryLabel = new Label("Category");
         categoryLabel.getStyleClass().add("label-text");
         ComboBox<Category> categoryComboBox = new ComboBox<>();
         categoryComboBox.setItems(FXCollections.observableArrayList(categoryTable.getAllCategories()));

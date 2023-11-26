@@ -13,10 +13,17 @@
     -fx-padding-top: 40px;
 }
 
+.pieChart-text{
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
 .label-text{
     -fx-font-size: 22px;
     -fx-font-weight: bold;
     -fx-text: white;
+    -fx-color: white;
 }
 
 .text-field{

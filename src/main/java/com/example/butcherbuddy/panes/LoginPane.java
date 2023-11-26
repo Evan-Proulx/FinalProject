@@ -28,7 +28,7 @@ public class LoginPane extends BorderPane {
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.TOP_CENTER);
-        vBox.getStyleClass().add("background");
+        vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
 
 
         System.out.println("CREATING TABLE");
@@ -42,7 +42,6 @@ public class LoginPane extends BorderPane {
         HBox hBox = new HBox();
         hBox.setSpacing(10);
         hBox.setAlignment(Pos.CENTER);
-        vBox.getStyleClass().add("background");
 
         Text title = new Text("Butcher Buddy");
         title.setFill(Color.WHITE);
@@ -69,6 +68,10 @@ public class LoginPane extends BorderPane {
         submitButton.setDefaultButton(true);
         submitButton.getStyleClass().add("button-style");
 
+        Text errorLabel = new Text(":)");
+        errorLabel.setOpacity(0);
+        errorLabel.getStyleClass().add("label-text");
+
         Image knife = new Image("com.example.butcherbuddy/images/Knife.png");
         Image knife2 = new Image("com.example.butcherbuddy/images/Knife2.png");
 
@@ -84,7 +87,7 @@ public class LoginPane extends BorderPane {
         imageView2.setImage(knife2);
 
         hBox.getChildren().addAll(imageView, imageView2);
-        vBox.getChildren().addAll(title,usernameLabel,userName,passwordLabel,password,submitButton, hBox);
+        vBox.getChildren().addAll(title,usernameLabel,userName,passwordLabel,password,submitButton,errorLabel, hBox);
         this.setCenter(vBox);
 
 
@@ -130,31 +133,36 @@ public class LoginPane extends BorderPane {
                 String passwordInput = password.getText();
                 LoginsTable loginsTable = new LoginsTable();
 
-                Login user = loginsTable.getLogin(usernameInput, passwordInput);
+                Login user = loginsTable.getLogin(usernameInput);
 
-                if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) { //if input textfields are not blank
-                    System.out.println("usernameInput: " + usernameInput + " | passwordInput: " + passwordInput);
-                    if (user == null) { //if user is NOT created in database
-                        System.out.println("User is not verified in database... creating account..");
-                        Login login = new Login(usernameInput, passwordInput);
-                        loginsTable.createLogin(login);
+                if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) {
+                    if (user != null) {
+                        if (usernameInput.equals(user.getUsername())) {
+                            if (passwordInput.equals(user.getPassword())) {
+                                System.out.println("-----------\nDatabase Information:" + user);
+                                LaunchApp.mainStage.setScene(new OrderFormScene());
+                            } else {
+                                errorLabel.setOpacity(1);
+                                errorLabel.setFill(Color.RED);
+                                errorLabel.setText("incorrect credentials (user and pass case-sensitive)" + user.getUsername());
+                                System.out.println("password Input: " + passwordInput + "\nuser password: " + user.getPassword());
+                            }
+                        }
                     } else {
-                        System.out.println("Hello " + user.getUsername() + "! And welcome to ButcherBuddy");
-                        System.out.println("-----------\nDatabase Information:" + user);
-                        LaunchApp.mainStage.setScene(new OrderFormScene());
+                        errorLabel.setOpacity(1);
+                        Login login = new Login(usernameInput, passwordInput);
+                        errorLabel.setFill(Color.GREEN);
+                        errorLabel.setText("Username not found, created account. Please re-login");
+                        loginsTable.createLogin(login);
                     }
                 } else {
-                    System.out.println("Input text in proper text fields to create a login");
+                    errorLabel.setOpacity(1);
+                    errorLabel.setFill(Color.RED);
+                    errorLabel.setText("Please enter your username and password in the required fields");
                 }
-
             }
         };
-
         submitButton.setOnAction(submitHandler);
-
-
-
-
 
     }
 }

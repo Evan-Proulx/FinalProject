@@ -32,6 +32,8 @@ public class Database {
                 createTable(DBConst.TABLE_PRODUCT, DBConst.CREATE_TABLE_PRODUCT, connection);
                 createTable(DBConst.TABLE_ORDERS, DBConst.CREATE_TABLE_ORDERS, connection);
                 createTable(DBConst.TABLE_ORDER_ITEMS, DBConst.CREATE_TABLE_ORDER_ITEMS, connection);
+                createTable(DBConst.TABLE_CUSTOMER_ORDERS, DBConst.CREATE_TABLE_CUSTOMER_ORDERS, connection);
+                createTable(DBConst.TABLE_CUSTOMER_ITEMS, DBConst.CREATE_TABLE_CUSTOMER_ITEMS, connection);
                 createTable(DBConst.TABLE_INVENTORY, DBConst.CREATE_TABLE_INVENTORY, connection);
             }catch (Exception e){
                 e.printStackTrace();
