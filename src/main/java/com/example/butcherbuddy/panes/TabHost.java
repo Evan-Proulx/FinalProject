@@ -14,7 +14,6 @@ public class TabHost extends BorderPane {
         FormTab formTab = FormTab.getInstance();
         CustomerFormTab customerFormTab = CustomerFormTab.getInstance();
         AddProductTab addProductTab = AddProductTab.getInstance();
-        ChartTab chartTab = ChartTab.getInstance();
 
         inventoryTab.setClosable(false);
         formTab.setClosable(false);
@@ -22,7 +21,7 @@ public class TabHost extends BorderPane {
         addProductTab.setClosable(false);
 
 
-        tabPane.getTabs().addAll(formTab,customerFormTab, inventoryTab, addProductTab, chartTab);
+        tabPane.getTabs().addAll(formTab,customerFormTab, inventoryTab, addProductTab);
 
         //Refreshes the inventory table when the inventory tab is opened
         tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldTab, newTab) -> {

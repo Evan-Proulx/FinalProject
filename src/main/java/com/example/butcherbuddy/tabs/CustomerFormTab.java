@@ -29,34 +29,34 @@ public class CustomerFormTab extends Tab {
 
     Text alertText = new Text("");
 
+
     ArrayList<String> names;
     ArrayList<Double> values;
     InventoryTable inventoryTable = new InventoryTable();
     ArrayList<Inventory> inventoryItems = inventoryTable.getAllInventories();
 
+    private PieChart chart;
+
     private CustomerFormTab() {
 
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        final PieChart chart = new PieChart();
-        chart.setTitle("Imported Products");
-
-        for (com.example.butcherbuddy.pojo.Inventory item : inventoryItems) {
-            PieChart.Data pieData = new PieChart.Data(item.getProductIdasString(), item.getQuantity());
-            pieChartData.add(pieData);
-        }
+        chart = new PieChart();
+        chart.setTitle("All inventory Products");
+        chart.getStyleClass().add("label-text");
+        chart.setLabelsVisible(true);
 
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
         vBox.setSpacing(30);
         vBox.setLayoutX(Const.SCREEN_WIDTH);
+        VBox ordersvBox = new VBox();
 
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
         Button submit = new Button("Submit Order");
         buttonHbox.getChildren().addAll(newItem, submit);
         buttonHbox.setAlignment(Pos.CENTER);
-        vBox.getChildren().add(buttonHbox);
+        vBox.getChildren().addAll(buttonHbox, alertText, ordersvBox);
 
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -68,20 +68,36 @@ public class CustomerFormTab extends Tab {
         hbox.setSpacing(30);
 
         alertText.setVisible(false);
-        chart.setVisible(true);
-        hbox.getChildren().add(alertText);
-
+        alertText.setFill(Color.RED);
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
-            orderLogic.addNewItem(vBox);
+            orderLogic.addNewItem(ordersvBox);
         });
 
         submit.setOnMouseClicked(event -> {
             submitOrder();
+            //ordersvBox.getChildren().clear();
         });
 
         this.setText("Customer Order Form");
         this.setContent(hbox);
+        createChart();
+    }
+
+    public void createChart(){
+        InventoryTable inventoryTable = InventoryTable.getInstance();
+
+        ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
+
+
+
+        ArrayList<PieChart.Data> data = new ArrayList<>();
+        for (Inventory inventory : inventories){
+            data.add(new PieChart.Data(inventory.getProductIdasString(), inventory.getQuantity()));
+        }
+        ObservableList<PieChart.Data> chartData
+                = FXCollections.observableArrayList(data);
+        chart.setData(chartData);
     }
 
     //Takes all items and sorts them into a Hashmap
@@ -92,8 +108,9 @@ public class CustomerFormTab extends Tab {
         if (alertText.isVisible()){alertText.setVisible(false);}
         if (statusName != null){
             alertText.setText("Item: " + statusName + " [More items ordered than in inventory!]");
-            alertText.setFill(Color.RED);
             alertText.setVisible(true);
+        } else {
+            createChart();
         }
     }
 

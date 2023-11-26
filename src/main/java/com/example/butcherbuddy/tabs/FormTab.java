@@ -3,13 +3,19 @@ package com.example.butcherbuddy.tabs;
 import com.example.butcherbuddy.Const;
 import com.example.butcherbuddy.OrderLogic;
 import com.example.butcherbuddy.UpdateTables;
+import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.Product;
+import com.example.butcherbuddy.tables.InventoryTable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class FormTab extends Tab {
@@ -17,7 +23,15 @@ public class FormTab extends Tab {
     private static FormTab instance;
     UpdateTables updateTables = new UpdateTables();
 
+    private PieChart chart;
+
     private FormTab() {
+
+        chart = new PieChart();
+        chart.setTitle("All inventory Products");
+        chart.getStyleClass().add("label-text");
+        chart.setLabelsVisible(true);
+
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -35,7 +49,7 @@ public class FormTab extends Tab {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setFitToHeight(true);
 
-        HBox hbox = new HBox(scrollPane);
+        HBox hbox = new HBox(chart, scrollPane);
         hbox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
         hbox.setAlignment(Pos.CENTER);
         hbox.setSpacing(30);
@@ -51,10 +65,28 @@ public class FormTab extends Tab {
         submit.setOnMouseClicked(event -> {
             Map<Product, Integer> itemMap = orderLogic.accessInputValues();
             updateTables.updateTables(itemMap);
+            createChart();
         });
 
         this.setText("Order Form");
         this.setContent(hbox);
+        createChart();
+    }
+
+    public void createChart(){
+        InventoryTable inventoryTable = InventoryTable.getInstance();
+
+        ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
+
+
+
+        ArrayList<PieChart.Data> data = new ArrayList<>();
+        for (Inventory inventory : inventories){
+            data.add(new PieChart.Data(inventory.getProductIdasString(), inventory.getQuantity()));
+        }
+        ObservableList<PieChart.Data> chartData
+                = FXCollections.observableArrayList(data);
+        chart.setData(chartData);
     }
 
 
