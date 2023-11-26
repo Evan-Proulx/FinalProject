@@ -12,6 +12,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.util.Map;
 
@@ -20,6 +21,8 @@ public class CustomerFormTab extends Tab {
     OrderLogic orderLogic = new OrderLogic();
     private static CustomerFormTab instance;
     UpdateTables updateTables = new UpdateTables();
+
+    Text alertText = new Text("");
 
     private CustomerFormTab() {
 
@@ -45,23 +48,34 @@ public class CustomerFormTab extends Tab {
         hbox.setAlignment(Pos.CENTER);
         hbox.setSpacing(30);
 
+        alertText.setVisible(false);
+        hbox.getChildren().add(alertText);
+
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
             orderLogic.addNewItem(vBox);
         });
 
-
-        //Takes all items and sorts them into a Hashmap
-        //Items in Hashmap are updated into the tables
         submit.setOnMouseClicked(event -> {
-            Map<Product, Integer> itemMap = orderLogic.accessInputValues();
-            updateTables.updateTables(itemMap);
+            submitOrder();
         });
 
         this.setText("Customer Order Form");
         this.setContent(hbox);
     }
 
+    //Takes all items and sorts them into a Hashmap
+    //Items in Hashmap are updated into the tables
+    private void submitOrder(){
+        Map<Product, Integer> itemMap = orderLogic.accessInputValues();
+        String statusName = updateTables.updateCustomerTables(itemMap);
+        if (alertText.isVisible()){alertText.setVisible(false);}
+        if (statusName != null){
+            alertText.setText("Item: " + statusName + " [More items ordered than in inventory!]");
+            alertText.setFill(Color.RED);
+            alertText.setVisible(true);
+        }
+    }
 
     public static CustomerFormTab getInstance() {
         if (instance == null) {
