@@ -5,7 +5,6 @@ import com.example.butcherbuddy.database.DBConst;
 import com.example.butcherbuddy.database.Database;
 import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.OrderItem;
-import com.example.butcherbuddy.tabs.InventoryTab;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +16,7 @@ import java.util.Map;
 public class InventoryTable implements InventoryDAO {
 
     Database db = Database.getInstance();
-
+    ArrayList<Inventory> pieData;
     ArrayList<Inventory> inventories;
 
     @Override
@@ -42,7 +41,6 @@ public class InventoryTable implements InventoryDAO {
         }
         return inventories;
     }
-
 
     @Override
     public Inventory getInventory(int id) {

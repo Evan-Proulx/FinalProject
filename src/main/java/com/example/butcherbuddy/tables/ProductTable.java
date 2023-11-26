@@ -13,6 +13,7 @@ public class ProductTable implements ProductDAO {
     Database db = Database.getInstance();
 
     ArrayList<Product> products;
+
     @Override
     public ArrayList<Product> getAllProducts() {
         String query = "SELECT * FROM " + DBConst.TABLE_PRODUCT;
@@ -35,6 +36,7 @@ public class ProductTable implements ProductDAO {
         }
         return products;
     }
+
 
     @Override
     public Product getProduct(int id) {

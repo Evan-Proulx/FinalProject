@@ -3,10 +3,14 @@ package com.example.butcherbuddy.tabs;
 import com.example.butcherbuddy.Const;
 import com.example.butcherbuddy.OrderLogic;
 import com.example.butcherbuddy.UpdateTables;
+import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.Product;
 import com.example.butcherbuddy.tables.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -14,6 +18,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class CustomerFormTab extends Tab {
@@ -24,7 +29,21 @@ public class CustomerFormTab extends Tab {
 
     Text alertText = new Text("");
 
+    ArrayList<String> names;
+    ArrayList<Double> values;
+    InventoryTable inventoryTable = new InventoryTable();
+    ArrayList<Inventory> inventoryItems = inventoryTable.getAllInventories();
+
     private CustomerFormTab() {
+
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        final PieChart chart = new PieChart();
+        chart.setTitle("Imported Products");
+
+        for (com.example.butcherbuddy.pojo.Inventory item : inventoryItems) {
+            PieChart.Data pieData = new PieChart.Data(item.getProductIdasString(), item.getQuantity());
+            pieChartData.add(pieData);
+        }
 
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
@@ -43,12 +62,13 @@ public class CustomerFormTab extends Tab {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setFitToHeight(true);
 
-        HBox hbox = new HBox(scrollPane);
+        HBox hbox = new HBox(chart, scrollPane);
         hbox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
         hbox.setAlignment(Pos.CENTER);
         hbox.setSpacing(30);
 
         alertText.setVisible(false);
+        chart.setVisible(true);
         hbox.getChildren().add(alertText);
 
         //sets new item to the screen on each button click
