@@ -37,8 +37,8 @@ public class LoginsTable implements LoginsDAO {
     }
 
     @Override
-    public Login getLogin(String username, String password) {
-        String query = "SELECT * FROM " + DBConst.TABLE_LOGINS + " WHERE " + DBConst.LOGINS_COLUMN_NAME  + " = '" + username + "'" + " AND " + DBConst.LOGINS_COLUMN_PASSWORD + " = " + "'" + password + "'";
+    public Login getLogin(String username) {
+        String query = "SELECT * FROM " + DBConst.TABLE_LOGINS + " WHERE " + DBConst.LOGINS_COLUMN_NAME  + " = '" + username + "'";
         //System.out.println(query);
         try{
             Statement getLogin = db.getConnection().createStatement();

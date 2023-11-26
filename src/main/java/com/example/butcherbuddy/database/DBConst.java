@@ -31,7 +31,18 @@ public class DBConst {
     public static final String ORDER_ITEMS_COLUMN_ORDER_ID = "order_id";
     public static final String ORDER_ITEMS_COLUMN_PRODUCT_ID = "product_id";
     public static final String ORDER_ITEMS_COLUMN_QUANTITY = "quantity";
-    public static final String ORDER_ITEMS_COLUMN_PRICE = "price";
+
+    //Customer_Orders Table
+    public static final String TABLE_CUSTOMER_ORDERS = "customer_orders";
+    public static final String CUSTOMER_ORDER_COLUMN_ID = "id";
+    public static final String CUSTOMER_ORDER_COLUMN_DATE = "date";
+
+    //Customer_items table
+    public static final String TABLE_CUSTOMER_ITEMS = "customer_items";
+    public static final String CUSTOMER_ITEMS_COLUMN_ID = "id";
+    public static final String CUSTOMER_ITEMS_COLUMN_ORDER_ID = "customer_id";
+    public static final String CUSTOMER_ITEMS_COLUMN_PRODUCT_ID = "product_id";
+    public static final String CUSTOMER_ITEMS_COLUMN_QUANTITY = "quantity";
 
     //Inventory table
     public static final String TABLE_INVENTORY = "inventory";
@@ -80,6 +91,21 @@ public class DBConst {
                     "FOREIGN KEY (" + ORDER_ITEMS_COLUMN_PRODUCT_ID + ")" +
                     " REFERENCES " + TABLE_PRODUCT + "("  + PRODUCT_COLUMN_ID +"));";
 
+    public static final String CREATE_TABLE_CUSTOMER_ORDERS =
+            "CREATE TABLE " + TABLE_CUSTOMER_ORDERS + " (" +
+                    CUSTOMER_ORDER_COLUMN_ID + " int NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
+                    CUSTOMER_ORDER_COLUMN_DATE + " DATE )";
+
+    public static final String CREATE_TABLE_CUSTOMER_ITEMS =
+            "CREATE TABLE " + TABLE_CUSTOMER_ITEMS + " (" +
+                    CUSTOMER_ITEMS_COLUMN_ORDER_ID + " int NOT NULL, " +
+                    CUSTOMER_ITEMS_COLUMN_PRODUCT_ID + " int NOT NULL, " +
+                    CUSTOMER_ITEMS_COLUMN_QUANTITY + " int NOT NULL, " +
+                    "CONSTRAINT " + CUSTOMER_ITEMS_COLUMN_ID + " PRIMARY KEY (" + CUSTOMER_ITEMS_COLUMN_ORDER_ID + ", " + CUSTOMER_ITEMS_COLUMN_PRODUCT_ID + "), " +
+                    "FOREIGN KEY (" + CUSTOMER_ITEMS_COLUMN_ORDER_ID + ")" +
+                    " REFERENCES " + TABLE_CUSTOMER_ORDERS + "(" + CUSTOMER_ORDER_COLUMN_ID +"),"+
+                    "FOREIGN KEY (" + CUSTOMER_ITEMS_COLUMN_PRODUCT_ID + ")" +
+                    " REFERENCES " + TABLE_PRODUCT + "("  + PRODUCT_COLUMN_ID +"));";
     public static final String CREATE_TABLE_INVENTORY =
             "CREATE TABLE " + TABLE_INVENTORY + " (" +
                     INVENTORY_COLUMN_ID + " int NOT NULL AUTO_INCREMENT PRIMARY KEY, " +

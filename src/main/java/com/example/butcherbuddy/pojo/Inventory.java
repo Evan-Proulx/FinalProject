@@ -35,9 +35,19 @@ public class Inventory {
         return productId;
     }
 
+    public String getProductIdasString() {
+        return toString(productId);
+    }
+
+    private String toString(int productId) {
+        return "" + productId;
+    }
+
+
     public void setProductId(int productId) {
         this.productId = productId;
     }
+
 
     public int getQuantity() {
         return quantity;

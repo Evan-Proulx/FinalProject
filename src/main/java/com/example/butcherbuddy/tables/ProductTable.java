@@ -10,9 +10,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ProductTable implements ProductDAO {
+
+    private static ProductTable instance;
     Database db = Database.getInstance();
 
     ArrayList<Product> products;
+
     @Override
     public ArrayList<Product> getAllProducts() {
         String query = "SELECT * FROM " + DBConst.TABLE_PRODUCT;
@@ -35,6 +38,7 @@ public class ProductTable implements ProductDAO {
         }
         return products;
     }
+
 
     @Override
     public Product getProduct(int id) {
@@ -84,5 +88,12 @@ public class ProductTable implements ProductDAO {
     @Override
     public void deleteProduct(Product product) {
 
+    }
+
+    public static ProductTable getInstance() {
+        if (instance == null) {
+            instance = new ProductTable();
+        }
+        return instance;
     }
 }
