@@ -57,6 +57,7 @@ public class FormTab extends Tab {
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
             orderLogic.addNewItem(vBox);
+            createChart();
         });
 
 
@@ -72,7 +73,6 @@ public class FormTab extends Tab {
         this.setContent(hbox);
         createChart();
     }
-
     public void createChart(){
         InventoryTable inventoryTable = InventoryTable.getInstance();
 
@@ -87,6 +87,7 @@ public class FormTab extends Tab {
         ObservableList<PieChart.Data> chartData
                 = FXCollections.observableArrayList(data);
         chart.setData(chartData);
+        System.out.println("Charts refreshed");
     }
 
 

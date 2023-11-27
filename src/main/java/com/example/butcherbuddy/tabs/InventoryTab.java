@@ -83,4 +83,5 @@ public class InventoryTab extends Tab {
         }
         return true;
     }
+
 }

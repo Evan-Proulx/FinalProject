@@ -72,6 +72,7 @@ public class CustomerFormTab extends Tab {
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
             orderLogic.addNewItem(ordersvBox);
+            createChart();
         });
 
         submit.setOnMouseClicked(event -> {
