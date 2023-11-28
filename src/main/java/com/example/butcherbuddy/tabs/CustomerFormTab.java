@@ -72,34 +72,19 @@ public class CustomerFormTab extends Tab {
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
             orderLogic.addNewItem(ordersvBox);
-            createChart();
-        });
+       });
 
+        //Takes all items and sorts them into a Hashmap
+        //Items in Hashmap are updated into the tables
         submit.setOnMouseClicked(event -> {
             submitOrder();
-            //ordersvBox.getChildren().clear();
         });
 
         this.setText("Customer Order Form");
         this.setContent(hbox);
-        createChart();
     }
 
-    public void createChart(){
-        InventoryTable inventoryTable = InventoryTable.getInstance();
 
-        ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
-
-
-
-        ArrayList<PieChart.Data> data = new ArrayList<>();
-        for (Inventory inventory : inventories){
-            data.add(new PieChart.Data(inventory.getProductIdasString(), inventory.getQuantity()));
-        }
-        ObservableList<PieChart.Data> chartData
-                = FXCollections.observableArrayList(data);
-        chart.setData(chartData);
-    }
 
     //Takes all items and sorts them into a Hashmap
     //Items in Hashmap are updated into the tables
@@ -109,11 +94,11 @@ public class CustomerFormTab extends Tab {
         if (alertText.isVisible()){alertText.setVisible(false);}
         if (statusName != null){
             alertText.setText("Item: " + statusName + " [More items ordered than in inventory!]");
+            alertText.setFill(Color.RED);
             alertText.setVisible(true);
-        } else {
-            createChart();
         }
     }
+
 
     public static CustomerFormTab getInstance() {
         if (instance == null) {

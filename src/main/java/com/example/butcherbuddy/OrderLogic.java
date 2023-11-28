@@ -1,6 +1,9 @@
 package com.example.butcherbuddy;
 
+import com.example.butcherbuddy.pojo.Inventory;
+import com.example.butcherbuddy.pojo.NamedInventory;
 import com.example.butcherbuddy.pojo.Product;
+import com.example.butcherbuddy.tables.InventoryTable;
 import com.example.butcherbuddy.tables.ProductTable;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -22,7 +25,9 @@ import java.util.Map;
 public class OrderLogic {
 
     ProductTable productTable = new ProductTable();
+    InventoryTable inventoryTable = new InventoryTable();
 
+    ArrayList<NamedInventory> newInventory;
 
     //Arraylists that hold the comboboxes and spinners of each item
     private ArrayList<ComboBox<Product>> productList = new ArrayList<>();
@@ -76,4 +81,25 @@ public class OrderLogic {
         }
         return itemMap;
     }
+
+    //Gets all items from the inventory table and converts them into NamedInventory objects
+    //Now Items in the tableView have names instead of productIds
+    public ArrayList<NamedInventory> getNamedInventory(){
+        ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
+        newInventory = new ArrayList<>();
+
+        for (Inventory inventory : inventories){
+            int id = inventory.getProductId();
+            String productName = productTable.getProduct(id).getName();
+            System.out.println(productName);
+
+            NamedInventory namedInventoryItem = new NamedInventory(productName, inventory.getQuantity(), inventory.getTotalPrice());
+            newInventory.add(namedInventoryItem);
+            System.out.println("Named Inventory: " + namedInventoryItem);
+        }
+        return newInventory;
+    }
+
+
+
 }
