@@ -5,6 +5,7 @@ import com.example.butcherbuddy.database.DBConst;
 import com.example.butcherbuddy.database.Database;
 import com.example.butcherbuddy.pojo.Category;
 import com.example.butcherbuddy.pojo.OrderItem;
+import com.example.butcherbuddy.pojo.Product;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -58,6 +59,18 @@ public class OrderItemsTable implements OrderItemsDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void deleteAllOfProduct(Product product){
+        int id = product.getId();
+        String query = "DELETE FROM " + DBConst.TABLE_ORDER_ITEMS + " WHERE " + DBConst.ORDER_ITEMS_COLUMN_PRODUCT_ID  + " = " + id;
+
+        try {
+            db.getConnection().createStatement().execute(query);
+            System.out.println("Deleted Records");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public double getProductPrice(int id){

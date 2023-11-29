@@ -25,7 +25,6 @@ public class CustomerFormTab extends Tab {
     private static CustomerFormTab instance;
     OrderLogic orderLogic = new OrderLogic();
     UpdateTables updateTables = new UpdateTables();
-
     Text alertText = new Text("");
 
     ArrayList<String> names;
@@ -35,7 +34,6 @@ public class CustomerFormTab extends Tab {
 
 
     private CustomerFormTab() {
-
 
         VBox vBox = new VBox();
         vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));

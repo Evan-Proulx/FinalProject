@@ -110,11 +110,11 @@ public class InventoryTable implements InventoryDAO {
     @Override
     public void deleteInventory(Inventory inventory) {
         int productId = inventory.getProductId();
-        String query = "DELETE * FROM " + DBConst.TABLE_INVENTORY + " WHERE " + DBConst.INVENTORY_COLUMN_PRODUCT_ID + " = " + productId;
+        String query = "DELETE From " + DBConst.TABLE_INVENTORY + " WHERE " + DBConst.INVENTORY_COLUMN_PRODUCT_ID + " = " + productId;
 
         try {
             db.getConnection().createStatement().execute(query);
-            System.out.println("Inserted Record");
+            System.out.println("Deleted Record");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -25,8 +25,6 @@ public class FormTab extends Tab {
 
 
     private FormTab() {
-
-
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -34,7 +32,6 @@ public class FormTab extends Tab {
         vBox.setPrefHeight(Const.SCREEN_HEIGHT);
         vBox.setPrefWidth(Const.SCREEN_WIDTH);
         vBox.getStyleClass().add("vbox");
-
 
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
