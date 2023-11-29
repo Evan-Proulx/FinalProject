@@ -1,6 +1,5 @@
 package com.example.butcherbuddy.tabs;
 
-import com.example.butcherbuddy.Const;
 import com.example.butcherbuddy.pojo.Category;
 import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.Product;
@@ -11,23 +10,18 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
-import javafx.scene.text.Font;
 
-import java.util.Objects;
 import java.util.Optional;
-import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
 
-public class AddProductTab extends Tab {
-    private static AddProductTab instance;
+public class ManageProductTab extends Tab {
+    private static ManageProductTab instance;
     CategoryTable categoryTable = CategoryTable.getInstance();
     ProductTable productTable = ProductTable.getInstance();
     InventoryTable inventoryTable = InventoryTable.getInstance();
     OrderItemsTable orderItemsTable = OrderItemsTable.getInstance();
     CustomerItemsTable customerItemsTable = CustomerItemsTable.getInstance();
 
-    private AddProductTab() {
+    private ManageProductTab() {
 
         Label nameLabel = new Label("Name");
         nameLabel.getStyleClass().add("label-text");
@@ -92,7 +86,7 @@ public class AddProductTab extends Tab {
 
         root.getChildren().addAll(addItemForm, deleteItemForm);
 
-        this.setText("Add Products");
+        this.setText("Manage Products");
         this.setContent(root);
 
 
@@ -122,9 +116,9 @@ public class AddProductTab extends Tab {
 
     }
 
-    public static AddProductTab getInstance() {
+    public static ManageProductTab getInstance() {
         if (instance == null) {
-            instance = new AddProductTab();
+            instance = new ManageProductTab();
         }
         return instance;
     }
