@@ -31,7 +31,10 @@ public class FormTab extends Tab {
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
         vBox.setSpacing(30);
-        vBox.setLayoutX(Const.SCREEN_WIDTH);
+        vBox.setPrefHeight(Const.SCREEN_HEIGHT);
+        vBox.setPrefWidth(Const.SCREEN_WIDTH);
+        vBox.getStyleClass().add("vbox");
+
 
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
@@ -42,12 +45,12 @@ public class FormTab extends Tab {
 
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setFitToHeight(true);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.getStyleClass().add("scroll-pane");
 
-        HBox hbox = new HBox(scrollPane);
-        hbox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
-        hbox.setAlignment(Pos.CENTER);
-        hbox.setSpacing(30);
+        VBox container = new VBox(buttonHbox,scrollPane);
+        container.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
+        container.setAlignment(Pos.CENTER);
 
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
@@ -63,7 +66,7 @@ public class FormTab extends Tab {
         });
 
         this.setText("Order Form");
-        this.setContent(hbox);
+        this.setContent(container);
     }
 
 

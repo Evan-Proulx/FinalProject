@@ -11,10 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -40,6 +37,7 @@ public class OrderLogic {
         infoGroup.setAlignment(Pos.CENTER);
         infoGroup.setSpacing(10);
         infoGroup.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        infoGroup.getStyleClass().add("vbox");
 
         Text title = new Text("Create an Order");
         Text product = new Text("Product:");

@@ -35,43 +35,45 @@ public class CustomerFormTab extends Tab {
     InventoryTable inventoryTable = new InventoryTable();
     ArrayList<Inventory> inventoryItems = inventoryTable.getAllInventories();
 
-    private PieChart chart;
 
     private CustomerFormTab() {
 
-        chart = new PieChart();
-        chart.setTitle("All inventory Products");
-        chart.getStyleClass().add("label-text");
-        chart.setLabelsVisible(true);
 
         VBox vBox = new VBox();
-        vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
         vBox.setSpacing(30);
-        vBox.setLayoutX(Const.SCREEN_WIDTH);
-        VBox ordersvBox = new VBox();
+        vBox.setPrefHeight(Const.SCREEN_HEIGHT);
+        vBox.setPrefWidth(Const.SCREEN_WIDTH);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getStyleClass().add("vbox");
+
+        VBox ordersVBox = new VBox();
+        ordersVBox.setAlignment(Pos.CENTER);
+        ordersVBox.setSpacing(40);
 
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
         Button submit = new Button("Submit Order");
-        buttonHbox.getChildren().addAll(newItem, submit);
+        buttonHbox.getChildren().addAll(newItem, submit, alertText);
         buttonHbox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(buttonHbox, alertText, ordersvBox);
+
+        vBox.getChildren().addAll(ordersVBox);
 
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setFitToHeight(true);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        HBox hbox = new HBox(chart, scrollPane);
-        hbox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
-        hbox.setAlignment(Pos.CENTER);
-        hbox.setSpacing(30);
+        scrollPane.getStyleClass().add("scroll-pane");
+
+        VBox vBox1 = new VBox(buttonHbox,scrollPane);
+        vBox1.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
+        vBox1.setAlignment(Pos.CENTER);
 
         alertText.setVisible(false);
         alertText.setFill(Color.RED);
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
-            orderLogic.addNewItem(ordersvBox);
+            orderLogic.addNewItem(ordersVBox);
        });
 
         //Takes all items and sorts them into a Hashmap
@@ -81,7 +83,7 @@ public class CustomerFormTab extends Tab {
         });
 
         this.setText("Customer Order Form");
-        this.setContent(hbox);
+        this.setContent(vBox1);
     }
 
 
