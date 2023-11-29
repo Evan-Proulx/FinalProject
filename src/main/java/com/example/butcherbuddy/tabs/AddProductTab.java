@@ -28,6 +28,7 @@ public class AddProductTab extends Tab {
     CustomerItemsTable customerItemsTable = CustomerItemsTable.getInstance();
 
     private AddProductTab() {
+
         Label nameLabel = new Label("Name");
         nameLabel.getStyleClass().add("label-text");
         TextField nameTextField = new TextField();
@@ -42,14 +43,15 @@ public class AddProductTab extends Tab {
         VBox comboVbox = new VBox(15);
         comboVbox.getChildren().addAll(categoryLabel, categoryComboBox);
 
-        HBox hBox = new HBox(20);
-        hBox.getChildren().addAll(textFieldVbox, comboVbox);
+        HBox categoryHbox = new HBox(20);
+        categoryHbox.getChildren().addAll(textFieldVbox, comboVbox);
+        categoryHbox.setAlignment(Pos.CENTER);
 
         Label priceLabel = new Label("Price");
-        nameLabel.getStyleClass().add("label-text");
+        priceLabel.getStyleClass().add("label-text");
         TextField priceTextField = new TextField();
-        VBox priceFieldVbox = new VBox();
-        priceFieldVbox.getChildren().addAll(priceLabel, priceTextField);
+//        VBox priceFieldVbox = new VBox();
+//        priceFieldVbox.getChildren().addAll(priceLabel, priceTextField);
 
         Label alertLabel = new Label("");
         alertLabel.getStyleClass().add("alert-text");
@@ -62,7 +64,7 @@ public class AddProductTab extends Tab {
 
         // Create layout
         VBox addItemForm = new VBox(10);
-        addItemForm.getChildren().addAll(addItemLabel, hBox, priceFieldVbox, alertLabel, submit);
+        addItemForm.getChildren().addAll(addItemLabel, categoryHbox, priceLabel, priceTextField, alertLabel, submit);
         addItemForm.setAlignment(Pos.CENTER);
 
 
@@ -72,19 +74,19 @@ public class AddProductTab extends Tab {
         ComboBox<Product> productComboBox = new ComboBox<>();
         productComboBox.setItems(FXCollections.observableArrayList(productTable.getAllProducts()));
         productComboBox.getSelectionModel().select(0);
-        VBox productCombo = new VBox(15);
-        productCombo.getChildren().addAll(productLabel, productComboBox);
+//        VBox productCombo = new VBox(15);
+//        productCombo.getChildren().addAll(productLabel, productComboBox);
 
         Button deleteBtn = new Button("Delete Item");
 
         Label deleteItemLabel = new Label("Delete A Product");
         deleteItemLabel.getStyleClass().add("header-text");
 
-        VBox deleteItemForm = new VBox();
-        deleteItemForm.getChildren().addAll(deleteItemLabel, productCombo, deleteBtn);
+        VBox deleteItemForm = new VBox(20);
+        deleteItemForm.getChildren().addAll(deleteItemLabel, productLabel, productComboBox, deleteBtn);
         deleteItemForm.setAlignment(Pos.CENTER);
 
-        HBox root = new HBox(100);
+        VBox root = new VBox(40);
         root.setAlignment(Pos.CENTER);
         root.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -92,6 +94,10 @@ public class AddProductTab extends Tab {
 
         this.setText("Add Products");
         this.setContent(root);
+
+
+
+
 
         submit.setOnAction(event -> {
             String productName = nameTextField.getText();
@@ -115,12 +121,15 @@ public class AddProductTab extends Tab {
         });
 
     }
+
     public static AddProductTab getInstance() {
         if (instance == null) {
             instance = new AddProductTab();
         }
         return instance;
     }
+
+
 
     //Check if values in the textfields are valid
     //If so returns a Product object
@@ -164,7 +173,7 @@ public class AddProductTab extends Tab {
         }
     }
 
-    //Calls the alert function to check if the user wants to delete
+    //Calls the alert function to check if the user wants to deleted
     //gets inventory record from productId and deletes record from inventory and product tables
     private void handleDelete(Product product){
         Inventory inventoryToDelete = inventoryTable.getInventory(product.getId());
