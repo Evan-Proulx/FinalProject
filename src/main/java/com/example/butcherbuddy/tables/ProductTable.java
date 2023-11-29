@@ -6,6 +6,7 @@ import com.example.butcherbuddy.database.Database;
 import com.example.butcherbuddy.pojo.Product;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -86,7 +87,13 @@ public class ProductTable implements ProductDAO {
 
     @Override
     public void deleteProduct(Product product) {
-
+        String query = "DELETE FROM " + DBConst.TABLE_PRODUCT + " WHERE " + DBConst.PRODUCT_COLUMN_ID  + " = " + product.getId();
+        try {
+            db.getConnection().createStatement().execute(query);
+            System.out.println("Deleted Record");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static ProductTable getInstance() {

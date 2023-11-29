@@ -26,6 +26,13 @@
     -fx-color: white;
 }
 
+.header-text{
+-fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text: white;
+    -fx-color: white;
+}
+
 .text-field{
     -fx-max-width: 200px;
     -fx-padding: 5px;
@@ -63,5 +70,10 @@
     -fx-padding: 40 0 40 0;
     -fx-margin: 0 200 0 200;
      -fx-alignment: center;
+}
 
+.bordered-vbox{
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-margin: 30px;
 }
