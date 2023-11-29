@@ -21,8 +21,8 @@ import java.util.Map;
 
 public class OrderLogic {
 
-    ProductTable productTable = new ProductTable();
-    InventoryTable inventoryTable = new InventoryTable();
+    ProductTable productTable = ProductTable.getInstance();
+    InventoryTable inventoryTable = InventoryTable.getInstance();
 
     ArrayList<NamedInventory> newInventory;
 

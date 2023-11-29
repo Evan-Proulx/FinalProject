@@ -16,9 +16,8 @@ import java.util.ArrayList;
 public class ChartTab extends Tab {
     private static ChartTab instance;
     private PieChart chart;
-
     InventoryTable inventoryTable = InventoryTable.getInstance();
-    ProductTable productTable = new ProductTable();
+    ProductTable productTable = ProductTable.getInstance();
     ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
 
     CategoryAxis xAxis = new CategoryAxis();
@@ -81,8 +80,6 @@ public class ChartTab extends Tab {
         }
         barChart.getData().add(series);
     }
-
-
 
     public static ChartTab getInstance() {
         if (instance == null) {

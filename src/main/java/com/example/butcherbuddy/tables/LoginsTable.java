@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class LoginsTable implements LoginsDAO {
 
+    private static LoginsTable instance;
     Database db = Database.getInstance();
 
     ArrayList<Login> logins;
@@ -88,6 +89,11 @@ public class LoginsTable implements LoginsDAO {
     public void deleteLogin(Login login) {
 
     }
-
+    public static LoginsTable getInstance(){
+        if(instance == null){
+            instance = new LoginsTable();
+        }
+        return instance;
+    }
 
 }

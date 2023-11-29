@@ -8,11 +8,11 @@ import java.util.Map;
 
 public class UpdateTables {
 
-    OrderItemsTable orderItemsTable = new OrderItemsTable();
-    OrdersTable ordersTable = new OrdersTable();
-    InventoryTable inventoryTable = new InventoryTable();
-    CustomerOrderTable customerOrderTable = new CustomerOrderTable();
-    CustomerItemsTable customerItemsTable = new CustomerItemsTable();
+    OrderItemsTable orderItemsTable = OrderItemsTable.getInstance();
+    OrdersTable ordersTable = OrdersTable.getInstance();
+    InventoryTable inventoryTable = InventoryTable.getInstance();
+    CustomerOrderTable customerOrderTable = CustomerOrderTable.getInstance();
+    CustomerItemsTable customerItemsTable = CustomerItemsTable.getInstance();
     /**
      * Create the order table
      * The createOrder method returns the tables id

@@ -204,7 +204,6 @@ public class InventoryTable implements InventoryDAO {
         }
     }
 
-
     public static InventoryTable getInstance() {
         if (instance == null) {
             instance = new InventoryTable();

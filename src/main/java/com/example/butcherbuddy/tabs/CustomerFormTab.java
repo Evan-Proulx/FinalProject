@@ -22,17 +22,15 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class CustomerFormTab extends Tab {
-
-    OrderLogic orderLogic = new OrderLogic();
     private static CustomerFormTab instance;
+    OrderLogic orderLogic = new OrderLogic();
     UpdateTables updateTables = new UpdateTables();
 
     Text alertText = new Text("");
 
-
     ArrayList<String> names;
     ArrayList<Double> values;
-    InventoryTable inventoryTable = new InventoryTable();
+    InventoryTable inventoryTable = InventoryTable.getInstance();
     ArrayList<Inventory> inventoryItems = inventoryTable.getAllInventories();
 
 
@@ -100,7 +98,6 @@ public class CustomerFormTab extends Tab {
             alertText.setVisible(true);
         }
     }
-
 
     public static CustomerFormTab getInstance() {
         if (instance == null) {

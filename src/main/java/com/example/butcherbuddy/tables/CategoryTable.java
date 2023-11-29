@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class CategoryTable implements CategoryDAO{
 
+    private static CategoryTable instance;
+
     Database db = Database.getInstance();
 
     ArrayList<Category> categories;
@@ -70,6 +72,13 @@ public class CategoryTable implements CategoryDAO{
     @Override
     public void deleteCategory(Category category) {
 
+    }
+
+    public static CategoryTable getInstance(){
+        if(instance == null){
+            instance = new CategoryTable();
+        }
+        return instance;
     }
 
 

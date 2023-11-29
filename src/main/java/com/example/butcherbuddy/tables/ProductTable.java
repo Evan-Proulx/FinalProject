@@ -10,7 +10,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ProductTable implements ProductDAO {
-
     private static ProductTable instance;
     Database db = Database.getInstance();
 
