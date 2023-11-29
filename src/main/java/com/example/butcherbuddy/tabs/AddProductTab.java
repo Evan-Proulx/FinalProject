@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 
 public class AddProductTab extends Tab {
     private static AddProductTab instance;
-    CategoryTable categoryTable = new CategoryTable();
-    ProductTable productTable = new ProductTable();
+    CategoryTable categoryTable = CategoryTable.getInstance();
+    ProductTable productTable = ProductTable.getInstance();
 
     private AddProductTab() {
         Label nameLabel = new Label("Name");

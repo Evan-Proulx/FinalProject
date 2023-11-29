@@ -1,6 +1,9 @@
 package com.example.butcherbuddy;
 
+import com.example.butcherbuddy.pojo.Inventory;
+import com.example.butcherbuddy.pojo.NamedInventory;
 import com.example.butcherbuddy.pojo.Product;
+import com.example.butcherbuddy.tables.InventoryTable;
 import com.example.butcherbuddy.tables.ProductTable;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -8,10 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -21,8 +21,10 @@ import java.util.Map;
 
 public class OrderLogic {
 
-    ProductTable productTable = new ProductTable();
+    ProductTable productTable = ProductTable.getInstance();
+    InventoryTable inventoryTable = InventoryTable.getInstance();
 
+    ArrayList<NamedInventory> newInventory;
 
     //Arraylists that hold the comboboxes and spinners of each item
     private ArrayList<ComboBox<Product>> productList = new ArrayList<>();
@@ -35,6 +37,7 @@ public class OrderLogic {
         infoGroup.setAlignment(Pos.CENTER);
         infoGroup.setSpacing(10);
         infoGroup.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        infoGroup.getStyleClass().add("vbox");
 
         Text title = new Text("Create an Order");
         Text product = new Text("Product:");
@@ -76,4 +79,25 @@ public class OrderLogic {
         }
         return itemMap;
     }
+
+    //Gets all items from the inventory table and converts them into NamedInventory objects
+    //Now Items in the tableView have names instead of productIds
+    public ArrayList<NamedInventory> getNamedInventory(){
+        ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
+        newInventory = new ArrayList<>();
+
+        for (Inventory inventory : inventories){
+            int id = inventory.getProductId();
+            String productName = productTable.getProduct(id).getName();
+            System.out.println(productName);
+
+            NamedInventory namedInventoryItem = new NamedInventory(productName, inventory.getQuantity(), inventory.getTotalPrice());
+            newInventory.add(namedInventoryItem);
+            System.out.println("Named Inventory: " + namedInventoryItem);
+        }
+        return newInventory;
+    }
+
+
+
 }

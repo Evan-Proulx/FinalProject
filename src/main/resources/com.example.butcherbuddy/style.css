@@ -37,8 +37,6 @@
     -fx-background-color: #ecf0f1;
 }
 
-
-
 .button-style{
 -fx-background-color: #242424;
     -fx-border-width: 2;
@@ -52,4 +50,18 @@
 .alert-text{
     -fx-text: red;
     -fx-font-weight: bold;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.vbox {
+    -fx-padding: 40 0 40 0;
+    -fx-margin: 0 200 0 200;
+     -fx-alignment: center;
+
 }

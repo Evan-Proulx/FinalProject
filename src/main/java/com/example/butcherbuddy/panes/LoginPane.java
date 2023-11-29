@@ -2,9 +2,7 @@ package com.example.butcherbuddy.panes;
 
 import com.example.butcherbuddy.LaunchApp;
 import com.example.butcherbuddy.pojo.Login;
-import com.example.butcherbuddy.pojo.OrderItem;
-import com.example.butcherbuddy.scenes.MenuScene;
-import com.example.butcherbuddy.scenes.OrderFormScene;
+import com.example.butcherbuddy.scenes.TabHostScene;
 import com.example.butcherbuddy.tables.*;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
@@ -19,7 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 public class LoginPane extends BorderPane {
@@ -140,7 +137,7 @@ public class LoginPane extends BorderPane {
                         if (usernameInput.equals(user.getUsername())) {
                             if (passwordInput.equals(user.getPassword())) {
                                 System.out.println("-----------\nDatabase Information:" + user);
-                                LaunchApp.mainStage.setScene(new OrderFormScene());
+                                LaunchApp.mainStage.setScene(new TabHostScene());
                             } else {
                                 errorLabel.setOpacity(1);
                                 errorLabel.setFill(Color.RED);

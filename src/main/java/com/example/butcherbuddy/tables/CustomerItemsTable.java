@@ -13,6 +13,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class CustomerItemsTable implements CustomerItemsDAO {
+
+    private static CustomerItemsTable instance;
     Database db = Database.getInstance();
     
     ArrayList<CustomerItem> customerItems;
@@ -103,5 +105,11 @@ public class CustomerItemsTable implements CustomerItemsDAO {
     @Override
     public void deleteCustomerItem(CustomerItem CustomerItem) {
 
+    }
+    public static CustomerItemsTable getInstance(){
+        if(instance == null){
+            instance = new CustomerItemsTable();
+        }
+        return instance;
     }
 }

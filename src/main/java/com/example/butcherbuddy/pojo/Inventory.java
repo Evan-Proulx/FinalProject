@@ -1,12 +1,12 @@
 package com.example.butcherbuddy.pojo;
 
 public class Inventory {
-
     private int id;
     private int productId;
     private int quantity;
     private double totalPrice;
     private String expiryDate;
+
 
 
     public Inventory(int id, int productId, int quantity, double totalPrice, String expiryDate) {
@@ -21,6 +21,8 @@ public class Inventory {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
     }
+
+
 
 
     public int getId() {

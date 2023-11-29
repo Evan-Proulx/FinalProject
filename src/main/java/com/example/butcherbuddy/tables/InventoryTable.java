@@ -44,6 +44,7 @@ public class InventoryTable implements InventoryDAO {
         return inventories;
     }
 
+
     @Override
     public Inventory getInventory(int id) {
         String query = "SELECT * FROM " + DBConst.TABLE_INVENTORY + " WHERE " + DBConst.INVENTORY_COLUMN_PRODUCT_ID + " = " + id;

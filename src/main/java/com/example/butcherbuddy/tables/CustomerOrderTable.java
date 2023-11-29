@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class CustomerOrderTable implements CustomerOrdersDAO {
+
+    private static CustomerOrderTable instance;
     Database db = Database.getInstance();
 
     ArrayList<CustomerOrders> customerOrders;
@@ -89,5 +91,11 @@ public class CustomerOrderTable implements CustomerOrdersDAO {
     @Override
     public void deleteCustomerOrder(CustomerOrders CustomerOrders) {
 
+    }
+    public static CustomerOrderTable getInstance(){
+        if(instance == null){
+            instance = new CustomerOrderTable();
+        }
+        return instance;
     }
 }
