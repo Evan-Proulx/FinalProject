@@ -1,6 +1,7 @@
 package com.example.butcherbuddy.tabs;
 
 import com.example.butcherbuddy.OrderLogic;
+import com.example.butcherbuddy.UpdateTables;
 import com.example.butcherbuddy.pojo.Category;
 import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.Product;
@@ -15,7 +16,6 @@ import javafx.scene.text.*;
 import java.util.Optional;
 
 public class ManageProductTab extends Tab {
-
     OrderLogic orderLogic = new OrderLogic();
     private static ManageProductTab instance;
     CategoryTable categoryTable = CategoryTable.getInstance();
@@ -102,6 +102,7 @@ public class ManageProductTab extends Tab {
             if (product != null) {
                 productTable.createProduct(product);
                 orderLogic.alert("accept", "Product added to products database!", alertLabel);
+                alertLabel.setVisible(true);
             } else {
                 orderLogic.alert("error", "Invalid input! Try again", alertLabel);
                 alertLabel.setVisible(true);

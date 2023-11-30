@@ -35,11 +35,11 @@ public class InventoryTab extends Tab {
 
         ObservableList<NamedInventory> inventoryData = FXCollections.observableArrayList();
 
-        TableColumn<NamedInventory, String> productIdColumn = new TableColumn<>("PRODUCTID");
+        TableColumn<NamedInventory, String> productIdColumn = new TableColumn<>("Product Name");
         productIdColumn.setCellValueFactory(new PropertyValueFactory<NamedInventory, String>("productName"));
-        TableColumn<NamedInventory, Integer> productQuantityColumn = new TableColumn<>("QUANTITY");
+        TableColumn<NamedInventory, Integer> productQuantityColumn = new TableColumn<>("Quantity");
         productQuantityColumn.setCellValueFactory(new PropertyValueFactory<NamedInventory, Integer>("quantity"));
-        TableColumn<NamedInventory, Double> priceColumn = new TableColumn<>("PRICE");
+        TableColumn<NamedInventory, Double> priceColumn = new TableColumn<>("Price");
         priceColumn.setCellValueFactory(new PropertyValueFactory<NamedInventory, Double>("totalPrice"));
 
         tableView.getColumns().addAll(productIdColumn, productQuantityColumn, priceColumn);

@@ -27,7 +27,6 @@ public class Database {
             }
 
             try{
-                createTable(DBConst.TABLE_LOGINS, DBConst.CREATE_TABLE_LOGINS, connection);
                 createTable(DBConst.TABLE_CATEGORY, DBConst.CREATE_TABLE_CATEGORY, connection);
                 createTable(DBConst.TABLE_PRODUCT, DBConst.CREATE_TABLE_PRODUCT, connection);
                 createTable(DBConst.TABLE_ORDERS, DBConst.CREATE_TABLE_ORDERS, connection);
@@ -35,8 +34,9 @@ public class Database {
                 createTable(DBConst.TABLE_CUSTOMER_ORDERS, DBConst.CREATE_TABLE_CUSTOMER_ORDERS, connection);
                 createTable(DBConst.TABLE_CUSTOMER_ITEMS, DBConst.CREATE_TABLE_CUSTOMER_ITEMS, connection);
                 createTable(DBConst.TABLE_INVENTORY, DBConst.CREATE_TABLE_INVENTORY, connection);
+                createTable(DBConst.TABLE_LOGINS, DBConst.CREATE_TABLE_LOGINS, connection);
             }catch (Exception e){
-                e.printStackTrace();
+                System.out.println(e);
             }
         }
 
