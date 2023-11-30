@@ -99,5 +99,18 @@ public class OrderLogic {
     }
 
 
+    public void alert(String alert, String text, Text container) {
+        if (alert.equals("error")){
+            container.setFill(Color.RED);
+            container.setText(text);
+        } else if (alert.equals("accept")) {
+            container.setFill(Color.GREEN);
+            container.setText(text);
+
+        }
+
+    }
+
+
 
 }

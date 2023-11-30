@@ -1,6 +1,7 @@
 package com.example.butcherbuddy.panes;
 
 import com.example.butcherbuddy.LaunchApp;
+import com.example.butcherbuddy.OrderLogic;
 import com.example.butcherbuddy.scenes.TabHostScene;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
@@ -25,6 +26,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DatabaseLoginPane extends BorderPane {
+
+    OrderLogic orderLogic = new OrderLogic();
+
     private Connection connection = null;
 
     String DBC = "src/main/resources/com.example.butcherbuddy/DBC.txt";
@@ -79,8 +83,7 @@ public class DatabaseLoginPane extends BorderPane {
         submitButton.setDefaultButton(true);
         submitButton.getStyleClass().add("button-style");
 
-        Text errorLabel = new Text(":)");
-        errorLabel.setOpacity(0);
+        Text errorLabel = new Text("");
         errorLabel.getStyleClass().add("label-text");
 
         Image knife = new Image("com.example.butcherbuddy/images/Knife.png");
@@ -91,10 +94,10 @@ public class DatabaseLoginPane extends BorderPane {
 
 
         imageView.setFitHeight(200);
-        imageView.setFitWidth(100);
+        imageView.setFitWidth(200);
         imageView.setImage(knife);
         imageView2.setFitHeight(200);
-        imageView2.setFitWidth(100);
+        imageView2.setFitWidth(200);
         imageView2.setImage(knife2);
 
         hBox.getChildren().addAll(imageView, imageView2);
@@ -139,6 +142,7 @@ public class DatabaseLoginPane extends BorderPane {
         EventHandler<ActionEvent> submitHandler = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                errorLabel.setOpacity(0);
                 String databaseInput = databaseLocation.getText();
                 String usernameInput = userName.getText();
                 String passwordInput = password.getText();
@@ -168,7 +172,10 @@ public class DatabaseLoginPane extends BorderPane {
 
                 }catch (Exception e){
                     e.printStackTrace();
+                    orderLogic.alert("error", "Please enter the correct login information", errorLabel);
+                    errorLabel.setOpacity(1);
                 }
+
             }
         };
         submitButton.setOnAction(submitHandler);

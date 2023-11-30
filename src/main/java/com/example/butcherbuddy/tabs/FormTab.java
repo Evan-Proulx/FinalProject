@@ -14,12 +14,15 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public class FormTab extends Tab {
     OrderLogic orderLogic = new OrderLogic();
+    Text alertText = new Text("");
+
     private static FormTab instance;
     UpdateTables updateTables = new UpdateTables();
 
@@ -45,10 +48,11 @@ public class FormTab extends Tab {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.getStyleClass().add("scroll-pane");
 
-        VBox container = new VBox(buttonHbox,scrollPane);
+        VBox container = new VBox(buttonHbox,alertText,scrollPane);
         container.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
         container.setAlignment(Pos.CENTER);
 
+        alertText.setVisible(false);
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
             orderLogic.addNewItem(vBox);

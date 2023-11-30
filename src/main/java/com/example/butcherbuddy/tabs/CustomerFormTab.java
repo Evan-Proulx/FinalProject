@@ -66,7 +66,6 @@ public class CustomerFormTab extends Tab {
         vBox1.setAlignment(Pos.CENTER);
 
         alertText.setVisible(false);
-        alertText.setFill(Color.RED);
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
             orderLogic.addNewItem(ordersVBox);
@@ -91,8 +90,7 @@ public class CustomerFormTab extends Tab {
         String statusName = updateTables.updateCustomerTables(itemMap);
         if (alertText.isVisible()){alertText.setVisible(false);}
         if (statusName != null){
-            alertText.setText("Item: " + statusName + " [More items ordered than in inventory!]");
-            alertText.setFill(Color.RED);
+            orderLogic.alert("error", "You've ordered more " + statusName + "'s than we have!", alertText);
             alertText.setVisible(true);
         }
     }

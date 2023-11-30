@@ -1,5 +1,6 @@
 package com.example.butcherbuddy.tabs;
 
+import com.example.butcherbuddy.OrderLogic;
 import com.example.butcherbuddy.pojo.Category;
 import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.Product;
@@ -10,10 +11,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-
+import javafx.scene.text.*;
 import java.util.Optional;
 
 public class ManageProductTab extends Tab {
+
+    OrderLogic orderLogic = new OrderLogic();
     private static ManageProductTab instance;
     CategoryTable categoryTable = CategoryTable.getInstance();
     ProductTable productTable = ProductTable.getInstance();
@@ -47,7 +50,7 @@ public class ManageProductTab extends Tab {
 //        VBox priceFieldVbox = new VBox();
 //        priceFieldVbox.getChildren().addAll(priceLabel, priceTextField);
 
-        Label alertLabel = new Label("");
+        Text alertLabel = new Text("");
         alertLabel.getStyleClass().add("alert-text");
         alertLabel.setVisible(false);
 
@@ -98,8 +101,9 @@ public class ManageProductTab extends Tab {
 
             if (product != null) {
                 productTable.createProduct(product);
+                orderLogic.alert("accept", "Product added to products database!", alertLabel);
             } else {
-                alertLabel.setText("Invalid input! Try again");
+                orderLogic.alert("error", "Invalid input! Try again", alertLabel);
                 alertLabel.setVisible(true);
             }
         });
