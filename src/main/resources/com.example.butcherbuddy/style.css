@@ -77,3 +77,13 @@
     -fx-border-width: 2px;
     -fx-margin: 30px;
 }
+
+.toggle-switch {
+    -fx-background-color: black;
+    -fx-background-radius: 15;
+    -fx-padding: 5;
+}
+
+.toggle-switch:selected {
+    -fx-background-color: grey;
+}
