@@ -50,7 +50,7 @@ public class CustomerFormTab extends Tab {
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
         Button submit = new Button("Submit Order");
-        buttonHbox.getChildren().addAll(newItem, submit, alertText);
+        buttonHbox.getChildren().addAll(newItem, submit);
         buttonHbox.setAlignment(Pos.CENTER);
 
         vBox.getChildren().addAll(ordersVBox);
@@ -61,7 +61,7 @@ public class CustomerFormTab extends Tab {
 
         scrollPane.getStyleClass().add("scroll-pane");
 
-        VBox vBox1 = new VBox(buttonHbox,scrollPane);
+        VBox vBox1 = new VBox(buttonHbox, alertText, scrollPane);
         vBox1.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
         vBox1.setAlignment(Pos.CENTER);
 

@@ -89,10 +89,6 @@ public class ManageProductTab extends Tab {
         this.setText("Manage Products");
         this.setContent(root);
 
-
-
-
-
         submit.setOnAction(event -> {
             String productName = nameTextField.getText();
             Category category = categoryComboBox.getValue();
