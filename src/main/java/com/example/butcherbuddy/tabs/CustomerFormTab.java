@@ -46,8 +46,6 @@ public class CustomerFormTab extends Tab {
 
         tableView = new TableView<>();
 
-        refreshTable();
-
         ObservableList<NamedInventory> inventoryData = FXCollections.observableArrayList();
 
         TableColumn<NamedInventory, String> productIdColumn = new TableColumn<>("Product Name");

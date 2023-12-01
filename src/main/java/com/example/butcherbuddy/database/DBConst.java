@@ -50,7 +50,6 @@ public class DBConst {
     public static final String INVENTORY_COLUMN_PRODUCT_ID = "product_id";
     public static final String INVENTORY_COLUMN_QUANTITY = "quantity";
     public static final String INVENTORY_COLUMN_TOTAL_PRICE = "total_price";
-    public static final String INVENTORY_COLUMN_EXPIRY_DATE = "expiry_date";
 
 
     //Create TABLES
@@ -112,7 +111,6 @@ public class DBConst {
                     INVENTORY_COLUMN_PRODUCT_ID + " int NOT NULL, " +
                     INVENTORY_COLUMN_QUANTITY + " int NOT NULL, " +
                     INVENTORY_COLUMN_TOTAL_PRICE + " DECIMAL(7,2), " +
-                    INVENTORY_COLUMN_EXPIRY_DATE + " DATE, " +
                     "FOREIGN KEY (" + INVENTORY_COLUMN_PRODUCT_ID + ")" +
                     " REFERENCES " + TABLE_PRODUCT + "(" + PRODUCT_COLUMN_ID +"));";
 }

@@ -125,7 +125,6 @@ public class OrderLogic {
         return newCategory;
     }
 
-
     public void alert(String alert, String text, Text container) {
         if (alert.equals("error")){
             container.setFill(Color.RED);
