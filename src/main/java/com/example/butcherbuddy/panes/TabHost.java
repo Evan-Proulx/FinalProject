@@ -29,6 +29,7 @@ public class TabHost extends BorderPane {
         tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldTab, newTab) -> {
             if (oldTab != null){
                 inventoryTab.refreshTable();
+                manageProductTab.refreshTable();
             }
         });
 

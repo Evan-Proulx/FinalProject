@@ -63,6 +63,7 @@ public class ManageProductTab extends Tab {
         TextField nameTextField = new TextField();
         VBox textFieldVbox = new VBox();
         textFieldVbox.getChildren().addAll(nameLabel, nameTextField);
+        textFieldVbox.setAlignment(Pos.CENTER);
 
         Label categoryLabel = new Label("Category");
         categoryLabel.getStyleClass().add("label-text");

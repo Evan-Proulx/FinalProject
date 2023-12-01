@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class UpdateTables {
 
+    CustomerItem customerItem = null;
+    OrderItem orderItem = null;
     OrderItemsTable orderItemsTable = OrderItemsTable.getInstance();
     OrdersTable ordersTable = OrdersTable.getInstance();
     InventoryTable inventoryTable = InventoryTable.getInstance();
@@ -31,7 +33,7 @@ public class UpdateTables {
             double price = quantity * product.getPrice();
             System.out.println(orderId + " " + product.getId() + " " + quantity + " " + price);
 
-            OrderItem orderItem = new OrderItem(
+            orderItem = new OrderItem(
                     orderId,
                     product.getId(),
                     quantity
@@ -61,7 +63,7 @@ public class UpdateTables {
             double price = quantity * product.getPrice();
             System.out.println(orderId + " " + productId + " " + quantity + " " + price);
 
-            CustomerItem customerItem  = new CustomerItem(
+            customerItem  = new CustomerItem(
                     orderId,
                     product.getId(),
                     quantity

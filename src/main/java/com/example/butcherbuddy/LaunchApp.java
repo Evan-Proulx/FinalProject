@@ -42,11 +42,11 @@ public class LaunchApp extends Application {
                 System.out.println("Connection Successfully created");
                 mainStage.setScene(new TabHostScene());
             }catch (Exception e){
-                e.printStackTrace();
+                System.out.println(e);
                 mainStage.setScene(new DatabaseLoginScene());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
     public static void main(String[] args) {

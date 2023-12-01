@@ -64,6 +64,7 @@ public class FormTab extends Tab {
         submit.setOnMouseClicked(event -> {
             Map<Product, Integer> itemMap = orderLogic.accessInputValues();
             updateTables.updateTables(itemMap);
+            itemMap.clear();
         });
 
         this.setText("Order Form");

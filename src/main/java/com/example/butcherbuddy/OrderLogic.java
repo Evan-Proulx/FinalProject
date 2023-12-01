@@ -62,6 +62,10 @@ public class OrderLogic {
         quantityList.add(numberInput);
     }
 
+    public void clearItems() {
+        productList.clear();
+    }
+
 
     /**
      * Loop through productList and quantityList and

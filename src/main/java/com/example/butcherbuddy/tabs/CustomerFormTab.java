@@ -26,7 +26,7 @@ public class CustomerFormTab extends Tab {
     OrderLogic orderLogic = new OrderLogic();
     UpdateTables updateTables = new UpdateTables();
     Text alertText = new Text("");
-
+    Map<Product, Integer> itemMap;
     ArrayList<String> names;
     ArrayList<Double> values;
     InventoryTable inventoryTable = InventoryTable.getInstance();
@@ -75,6 +75,7 @@ public class CustomerFormTab extends Tab {
         //Items in Hashmap are updated into the tables
         submit.setOnMouseClicked(event -> {
             submitOrder();
+            itemMap.clear();
         });
 
         this.setText("Customer Order Form");
@@ -86,7 +87,7 @@ public class CustomerFormTab extends Tab {
     //Takes all items and sorts them into a Hashmap
     //Items in Hashmap are updated into the tables
     private void submitOrder(){
-        Map<Product, Integer> itemMap = orderLogic.accessInputValues();
+        itemMap = orderLogic.accessInputValues();
         String statusName = updateTables.updateCustomerTables(itemMap);
         if (alertText.isVisible()){alertText.setVisible(false);}
         if (statusName != null){
