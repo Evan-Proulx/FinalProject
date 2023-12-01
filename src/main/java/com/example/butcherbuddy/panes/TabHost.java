@@ -27,7 +27,7 @@ public class TabHost extends BorderPane {
 
         //Refreshes the inventory table when the inventory tab is opened
         tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldTab, newTab) -> {
-            if (newTab != null){
+            if (oldTab != null){
                 inventoryTab.refreshTable();
             }
         });

@@ -121,8 +121,7 @@ public class InventoryTable implements InventoryDAO {
     }
 
 
-    public String getItemName(Inventory inventory) {
-        int productId = inventory.getProductId();
+    public String getItemName(int productId) {
         String query = "SELECT * FROM " + DBConst.TABLE_PRODUCT + " WHERE " + DBConst.PRODUCT_COLUMN_ID + " = " + productId;
 
         try {

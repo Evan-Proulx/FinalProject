@@ -27,7 +27,7 @@ public class InventoryTab extends Tab {
     private InventoryTab() {
         BorderPane root = new BorderPane();
 
-        System.out.println(namedInventory);
+//        System.out.println(namedInventory);
 
         tableView = new TableView<>();
 

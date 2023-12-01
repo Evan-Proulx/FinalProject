@@ -2,17 +2,19 @@ package com.example.butcherbuddy.tabs;
 
 import com.example.butcherbuddy.OrderLogic;
 import com.example.butcherbuddy.UpdateTables;
-import com.example.butcherbuddy.pojo.Category;
-import com.example.butcherbuddy.pojo.Inventory;
-import com.example.butcherbuddy.pojo.Product;
+import com.example.butcherbuddy.pojo.*;
 import com.example.butcherbuddy.tables.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class ManageProductTab extends Tab {
@@ -23,8 +25,38 @@ public class ManageProductTab extends Tab {
     InventoryTable inventoryTable = InventoryTable.getInstance();
     OrderItemsTable orderItemsTable = OrderItemsTable.getInstance();
     CustomerItemsTable customerItemsTable = CustomerItemsTable.getInstance();
+    TableView<NamedCategory> tableView;
+    ArrayList<NamedCategory> namedCategory = orderLogic.getNamedCategory();
+
 
     private ManageProductTab() {
+
+        tableView = new TableView<>();
+
+        refreshTable();
+
+        ObservableList<NamedCategory> categoryData = FXCollections.observableArrayList();
+
+        TableColumn<NamedCategory, String> categoryColumn = new TableColumn<>("Category");
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<NamedCategory, String>("category"));
+        TableColumn<NamedCategory, String> productIdColumn = new TableColumn<>("Product Name");
+        productIdColumn.setCellValueFactory(new PropertyValueFactory<NamedCategory, String>("productName"));
+        TableColumn<NamedCategory, Double> priceColumn = new TableColumn<>("Price");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<NamedCategory, Double>("totalPrice"));
+
+        tableView.getColumns().addAll(categoryColumn, productIdColumn, priceColumn);
+        tableView.setPrefHeight(500);
+        tableView.setPrefWidth(300);
+
+        categoryData.addAll(namedCategory);
+        tableView.setItems(categoryData);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        Label tableViewNameLabel = new Label("Inventory");
+        tableViewNameLabel.getStyleClass().add("label-text");
+        VBox tableViewVbox = new VBox();
+        tableViewVbox.getChildren().addAll(tableViewNameLabel, tableView);
+        tableViewVbox.setAlignment(Pos.CENTER);
 
         Label nameLabel = new Label("Name");
         nameLabel.getStyleClass().add("label-text");
@@ -85,12 +117,17 @@ public class ManageProductTab extends Tab {
 
         VBox root = new VBox(40);
         root.setAlignment(Pos.CENTER);
-        root.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-
         root.getChildren().addAll(addItemForm, deleteItemForm);
 
+
+        HBox test = new HBox(20);
+        test.getChildren().addAll(tableViewVbox, root);
+        test.setAlignment(Pos.CENTER);
+
+
+
         this.setText("Manage Products");
-        this.setContent(root);
+        this.setContent(test);
 
         submit.setOnAction(event -> {
             String productName = nameTextField.getText();
@@ -99,20 +136,55 @@ public class ManageProductTab extends Tab {
 
             Product product = checkValidValues(productName, productPrice, category);
 
+            Product newProduct = productTable.getProductName(productName);
+
             if (product != null) {
-                productTable.createProduct(product);
-                orderLogic.alert("accept", "Product added to products database!", alertLabel);
-                alertLabel.setVisible(true);
+                if (newProduct == null) {
+                    productTable.createProduct(product);
+                    refreshTable();
+                    orderLogic.alert("accept", "Product added to products database!", alertLabel);
+                    alertLabel.setVisible(true);
+                    nameTextField.setText("");
+                    priceTextField.setText("");
+                } else {
+                    orderLogic.alert("error", "This product already exists!", alertLabel);
+                    alertLabel.setVisible(true);
+                }
             } else {
                 orderLogic.alert("error", "Invalid input! Try again", alertLabel);
                 alertLabel.setVisible(true);
             }
+
+//            if (product != null) {
+//                if (newProduct == null){
+//                    if (!productName.equals(newProduct.getName())) {
+//                        productTable.createProduct(product);
+//                        refreshTable();
+//                        orderLogic.alert("accept", "Product added to products database!", alertLabel);
+//                        alertLabel.setVisible(true);
+//                        nameTextField.setText("");
+//                        priceTextField.setText("");
+//                    } else {
+//                        orderLogic.alert("error", "This product already exists!", alertLabel);
+//                        alertLabel.setVisible(true);
+//                    }
+//                } else {
+//                    orderLogic.alert("error", "Invalid input! Try again", alertLabel);
+//                    alertLabel.setVisible(true);
+//
+//                }
+//            } else {
+//                orderLogic.alert("error", "Please fill out fields.", alertLabel);
+//                alertLabel.setVisible(true);
+//            }
+
         });
 
         deleteBtn.setOnAction(event -> {
             Product selectedProduct = productComboBox.getValue();
 
             handleDelete(selectedProduct);
+            refreshTable();
         });
 
     }
@@ -181,6 +253,29 @@ public class ManageProductTab extends Tab {
             }
             productTable.deleteProduct(product);
         }
+    }
+
+    public void refreshTable() {
+        ArrayList<NamedCategory> updatedCategory = orderLogic.getNamedCategory();
+        System.out.println("Refreshing table......");
+
+        if (!isInventoryEqual(updatedCategory)) {
+            tableView.setItems(FXCollections.observableArrayList(updatedCategory));
+            System.out.println("Table refreshed");
+        }
+    }
+
+    private boolean isInventoryEqual(ArrayList<NamedCategory> updatedCategory) {
+        if (namedCategory.size() != updatedCategory.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < namedCategory.size(); i++) {
+            if (!namedCategory.get(i).equals(updatedCategory.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

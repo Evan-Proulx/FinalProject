@@ -63,6 +63,28 @@ public class ProductTable implements ProductDAO {
     }
 
     @Override
+    public Product getProductName(String name) {
+        String query = "SELECT * FROM " + DBConst.TABLE_PRODUCT + " WHERE " + DBConst.PRODUCT_COLUMN_NAME  + " = " + "'" + name + "'";
+
+        try{
+            Statement getProduct = db.getConnection().createStatement();
+            ResultSet data = getProduct.executeQuery(query);
+            if (data.next()){
+                Product product = new Product(
+                        data.getInt(DBConst.PRODUCT_COLUMN_ID),
+                        data.getString(DBConst.PRODUCT_COLUMN_NAME),
+                        data.getDouble(DBConst.PRODUCT_COLUMN_PRICE),
+                        data.getInt(DBConst.PRODUCT_COLUMN_CATEGORY)
+                );
+                return product;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public void createProduct(Product product) {
         String query = "INSERT INTO " + DBConst.TABLE_PRODUCT +
                 "(" + DBConst.PRODUCT_COLUMN_NAME + ", " +

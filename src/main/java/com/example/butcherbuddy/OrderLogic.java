@@ -1,8 +1,7 @@
 package com.example.butcherbuddy;
 
-import com.example.butcherbuddy.pojo.Inventory;
-import com.example.butcherbuddy.pojo.NamedInventory;
-import com.example.butcherbuddy.pojo.Product;
+import com.example.butcherbuddy.pojo.*;
+import com.example.butcherbuddy.tables.CategoryTable;
 import com.example.butcherbuddy.tables.InventoryTable;
 import com.example.butcherbuddy.tables.ProductTable;
 import javafx.collections.FXCollections;
@@ -22,9 +21,12 @@ import java.util.Map;
 public class OrderLogic {
 
     ProductTable productTable = ProductTable.getInstance();
+
+    CategoryTable categoryTable = CategoryTable.getInstance();
     InventoryTable inventoryTable = InventoryTable.getInstance();
 
     ArrayList<NamedInventory> newInventory;
+    ArrayList<NamedCategory> newCategory;
 
     //Arraylists that hold the comboboxes and spinners of each item
     private ArrayList<ComboBox<Product>> productList = new ArrayList<>();
@@ -80,6 +82,7 @@ public class OrderLogic {
         return itemMap;
     }
 
+
     //Gets all items from the inventory table and converts them into NamedInventory objects
     //Now Items in the tableView have names instead of productIds
     public ArrayList<NamedInventory> getNamedInventory(){
@@ -96,6 +99,26 @@ public class OrderLogic {
             System.out.println("Named Inventory: " + namedInventoryItem);
         }
         return newInventory;
+    }
+
+    //Gets all items from the inventory table and converts them into NamedCategory objects
+    //Now Items in the tableView have names and categories
+    public ArrayList<NamedCategory> getNamedCategory(){
+        ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
+        ArrayList<Category> categories = categoryTable.getAllCategories();
+        ArrayList<Product> products = productTable.getAllProducts();
+
+        newCategory = new ArrayList<>();
+        for (Product product : products){
+            int id = product.getId();
+            String productName = productTable.getProduct(id).getName();
+            System.out.println(productName);
+
+            NamedCategory namedInventoryItem = new NamedCategory(product.getCategory(), productName, product.getPrice());
+            newCategory.add(namedInventoryItem);
+            System.out.println("Named Inventory: " + namedInventoryItem);
+        }
+        return newCategory;
     }
 
 

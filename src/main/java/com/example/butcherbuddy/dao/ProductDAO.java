@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public interface ProductDAO {
     public ArrayList<Product> getAllProducts();
     public Product getProduct(int id);
+
+    Product getProductName(String name);
+
     public void createProduct(Product product);
     public void updateProduct(Product product);
     public void deleteProduct(Product product);
