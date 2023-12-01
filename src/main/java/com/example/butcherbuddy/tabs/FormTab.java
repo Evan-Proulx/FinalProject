@@ -4,6 +4,7 @@ import com.example.butcherbuddy.Const;
 import com.example.butcherbuddy.OrderLogic;
 import com.example.butcherbuddy.UpdateTables;
 import com.example.butcherbuddy.pojo.Inventory;
+import com.example.butcherbuddy.pojo.NamedInventory;
 import com.example.butcherbuddy.pojo.Product;
 import com.example.butcherbuddy.tables.InventoryTable;
 import javafx.collections.FXCollections;
@@ -12,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -26,19 +28,50 @@ public class FormTab extends Tab {
     private static FormTab instance;
     UpdateTables updateTables = new UpdateTables();
 
+    TableView<NamedInventory> tableView;
+
+    ArrayList<NamedInventory> namedInventory = orderLogic.getNamedInventory();
+
 
     private FormTab() {
-        VBox vBox = new VBox();
+
+        tableView = new TableView<>();
+
+        refreshTable();
+
+        ObservableList<NamedInventory> inventoryData = FXCollections.observableArrayList();
+
+        TableColumn<NamedInventory, String> productIdColumn = new TableColumn<>("Product Name");
+        productIdColumn.setCellValueFactory(new PropertyValueFactory<NamedInventory, String>("productName"));
+        TableColumn<NamedInventory, Integer> productQuantityColumn = new TableColumn<>("Quantity");
+        productQuantityColumn.setCellValueFactory(new PropertyValueFactory<NamedInventory, Integer>("quantity"));
+        TableColumn<NamedInventory, Double> priceColumn = new TableColumn<>("Price");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<NamedInventory, Double>("totalPrice"));
+
+        tableView.getColumns().addAll(productIdColumn, productQuantityColumn, priceColumn);
+        tableView.setPrefHeight(500);
+        tableView.setPrefWidth(300);
+
+        inventoryData.addAll(namedInventory);
+        tableView.setItems(inventoryData);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        Label tableViewNameLabel = new Label("Inventory");
+        tableViewNameLabel.getStyleClass().add("label-text");
+        VBox tableViewVbox = new VBox();
+        tableViewVbox.getChildren().addAll(tableViewNameLabel, tableView);
+        tableViewVbox.setAlignment(Pos.CENTER);
+
+
+        VBox vBox = new VBox(20);
         vBox.setAlignment(Pos.CENTER);
-        vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
-        vBox.setSpacing(30);
-        vBox.setPrefHeight(Const.SCREEN_HEIGHT);
-        vBox.setPrefWidth(Const.SCREEN_WIDTH);
         vBox.getStyleClass().add("vbox");
 
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
         Button submit = new Button("Submit Order");
+        newItem.getStyleClass().add("button-style");
+        submit.getStyleClass().add("button-style");
         buttonHbox.getChildren().addAll(newItem, submit);
         buttonHbox.setAlignment(Pos.CENTER);
         vBox.getChildren().add(buttonHbox);
@@ -48,9 +81,14 @@ public class FormTab extends Tab {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.getStyleClass().add("scroll-pane");
 
-        VBox container = new VBox(buttonHbox,alertText,scrollPane);
-        container.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        VBox container = new VBox(buttonHbox,alertText, scrollPane);
+        container.setSpacing(20);
         container.setAlignment(Pos.CENTER);
+
+        HBox test = new HBox(50);
+        test.getChildren().addAll(tableViewVbox, container);
+        test.setAlignment(Pos.CENTER);
 
         alertText.setVisible(false);
         //sets new item to the screen on each button click
@@ -65,12 +103,38 @@ public class FormTab extends Tab {
             Map<Product, Integer> itemMap = orderLogic.accessInputValues();
             updateTables.updateTables(itemMap);
             itemMap.clear();
+            refreshTable();
         });
 
-        this.setText("Order Form");
-        this.setContent(container);
+        this.setText("Store Order Form");
+        this.setContent(test);
     }
 
+
+    //Checks if the old inventory and new are the same. If not we update the table
+    public void refreshTable() {
+        ArrayList<NamedInventory> updatedInventory = orderLogic.getNamedInventory();
+        System.out.println("Refreshing table......");
+
+        if (!isInventoryEqual(updatedInventory)) {
+            tableView.setItems(FXCollections.observableArrayList(updatedInventory));
+            System.out.println("Table refreshed");
+        }
+    }
+
+    //checks if the new inventory is equal to inventoryItems if not return false
+    private boolean isInventoryEqual(ArrayList<NamedInventory> updatedInventory) {
+        if (namedInventory.size() != updatedInventory.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < namedInventory.size(); i++) {
+            if (!namedInventory.get(i).equals(updatedInventory.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
     public static FormTab getInstance() {

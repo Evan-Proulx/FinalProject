@@ -108,17 +108,17 @@ public class OrderLogic {
     //Gets all items from the inventory table and converts them into NamedCategory objects
     //Now Items in the tableView have names and categories
     public ArrayList<NamedCategory> getNamedCategory(){
-        ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
-        ArrayList<Category> categories = categoryTable.getAllCategories();
         ArrayList<Product> products = productTable.getAllProducts();
 
         newCategory = new ArrayList<>();
         for (Product product : products){
+            int catid = product.getCategory();
             int id = product.getId();
             String productName = productTable.getProduct(id).getName();
+            String categoryName = categoryTable.getCategory(catid).getName();
             System.out.println(productName);
 
-            NamedCategory namedInventoryItem = new NamedCategory(product.getCategory(), productName, product.getPrice());
+            NamedCategory namedInventoryItem = new NamedCategory(categoryName, productName, product.getPrice());
             newCategory.add(namedInventoryItem);
             System.out.println("Named Inventory: " + namedInventoryItem);
         }

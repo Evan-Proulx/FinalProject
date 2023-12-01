@@ -52,7 +52,7 @@ public class ManageProductTab extends Tab {
         tableView.setItems(categoryData);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        Label tableViewNameLabel = new Label("Inventory");
+        Label tableViewNameLabel = new Label("Products");
         tableViewNameLabel.getStyleClass().add("label-text");
         VBox tableViewVbox = new VBox();
         tableViewVbox.getChildren().addAll(tableViewNameLabel, tableView);
@@ -88,6 +88,7 @@ public class ManageProductTab extends Tab {
         alertLabel.setVisible(false);
 
         Button submit = new Button("Add Product");
+        submit.getStyleClass().add("button-style");
 
         Label addItemLabel = new Label("Add Product");
         addItemLabel.getStyleClass().add("header-text");
@@ -108,6 +109,7 @@ public class ManageProductTab extends Tab {
 //        productCombo.getChildren().addAll(productLabel, productComboBox);
 
         Button deleteBtn = new Button("Delete Item");
+        deleteBtn.getStyleClass().add("button-style");
 
         Label deleteItemLabel = new Label("Delete A Product");
         deleteItemLabel.getStyleClass().add("header-text");
