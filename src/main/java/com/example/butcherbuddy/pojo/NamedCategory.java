@@ -2,15 +2,21 @@ package com.example.butcherbuddy.pojo;
 
 public class NamedCategory {
 
-    private int category;
+    private String category;
     private String productName;
     private double totalPrice;
 
-    public int getCategory() {
+    public NamedCategory(String category, String productName, double totalPrice) {
+        this.category = category;
+        this.productName = productName;
+        this.totalPrice = totalPrice;
+    }
+
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -30,9 +36,5 @@ public class NamedCategory {
         this.totalPrice = totalPrice;
     }
 
-    public NamedCategory(int category, String productName, double totalPrice) {
-        this.category = category;
-        this.productName = productName;
-        this.totalPrice = totalPrice;
-    }
+
 }

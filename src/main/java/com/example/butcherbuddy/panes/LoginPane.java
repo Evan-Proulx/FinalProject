@@ -29,11 +29,6 @@ public class LoginPane extends BorderPane {
 
 
         System.out.println("CREATING TABLE");
-        CategoryTable categoryTable = new CategoryTable();
-        ProductTable productTable = new ProductTable();
-        OrdersTable ordersTable = new OrdersTable();
-        OrderItemsTable orderItemsTable = new OrderItemsTable();
-        InventoryTable inventoryTable = new InventoryTable();
 
 
         HBox hBox = new HBox();

@@ -1,12 +1,7 @@
 package com.example.butcherbuddy.tabs;
 
 import com.example.butcherbuddy.OrderLogic;
-import com.example.butcherbuddy.pojo.Inventory;
 import com.example.butcherbuddy.pojo.NamedInventory;
-import com.example.butcherbuddy.pojo.OrderItem;
-import com.example.butcherbuddy.tables.InventoryTable;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
@@ -27,11 +22,7 @@ public class InventoryTab extends Tab {
     private InventoryTab() {
         BorderPane root = new BorderPane();
 
-//        System.out.println(namedInventory);
-
         tableView = new TableView<>();
-
-        refreshTable();
 
         ObservableList<NamedInventory> inventoryData = FXCollections.observableArrayList();
 
@@ -61,20 +52,28 @@ public class InventoryTab extends Tab {
         return instance;
     }
 
-    //Checks if the old inventory and new are the same. If not we update the table
+    /**
+     * Refreshes the TableView with the latest data in the inventory table.
+     * Retrieves the updated NamedInventory from the OrderLogic class, compares it with
+     * the current data in the TableView, and updates the table if changes are detected.
+     * @author Evan Proulx
+     */
     public void refreshTable() {
         ArrayList<NamedInventory> updatedInventory = orderLogic.getNamedInventory();
         System.out.println("Refreshing table......");
 
-        if (!isInventoryEqual(updatedInventory)) {
+        if (isInventoryEqual(updatedInventory)) {
             tableView.setItems(FXCollections.observableArrayList(updatedInventory));
             System.out.println("Table refreshed");
         }
     }
-
-    //checks if the new inventory is equal to inventoryItems if not return false
+    /**
+     * Checks whether the new inventory in refreshTable() is equal to the current
+     * inventory
+     *
+     */
     private boolean isInventoryEqual(ArrayList<NamedInventory> updatedInventory) {
-        if (namedInventory.size() != updatedInventory.size()) {
+        if (namedInventory.equals(updatedInventory)) {
             return false;
         }
 

@@ -52,7 +52,6 @@ public class Database {
     }
 
     /**
-     * Takes database metadata and creates the table if it does not already exist
      *
      * @param tableName
      * @param tableQuery

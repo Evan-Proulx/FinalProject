@@ -54,7 +54,8 @@ public class ChartTab extends Tab {
 
         Button refresh = new Button("Refresh");
         ToggleButton toggleChartBtn = new ToggleButton("Toggle Chart");
-        toggleChartBtn.getStyleClass().add("toggle-switch");
+        refresh.getStyleClass().add("button-style");
+        toggleChartBtn.getStyleClass().add("button-style");
         HBox buttonHBox = new HBox();
         buttonHBox.getChildren().addAll(refresh, toggleChartBtn);
 
@@ -81,7 +82,7 @@ public class ChartTab extends Tab {
         });
 
         root.setBottom(buttonHBox);
-        this.setText("Stats");
+        this.setText("Charts");
         this.setContent(root);
     }
 

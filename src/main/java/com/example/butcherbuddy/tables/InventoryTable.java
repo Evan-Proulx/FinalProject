@@ -34,8 +34,7 @@ public class InventoryTable implements InventoryDAO {
                         data.getInt(DBConst.INVENTORY_COLUMN_ID),
                         data.getInt(DBConst.INVENTORY_COLUMN_PRODUCT_ID),
                         data.getInt(DBConst.INVENTORY_COLUMN_QUANTITY),
-                        data.getInt(DBConst.INVENTORY_COLUMN_TOTAL_PRICE),
-                        data.getString(DBConst.INVENTORY_COLUMN_EXPIRY_DATE)
+                        data.getInt(DBConst.INVENTORY_COLUMN_TOTAL_PRICE)
                 ));
             }
         } catch (Exception e) {
@@ -57,8 +56,7 @@ public class InventoryTable implements InventoryDAO {
                         data.getInt(DBConst.INVENTORY_COLUMN_ID),
                         data.getInt(DBConst.INVENTORY_COLUMN_PRODUCT_ID),
                         data.getInt(DBConst.INVENTORY_COLUMN_QUANTITY),
-                        data.getInt(DBConst.INVENTORY_COLUMN_TOTAL_PRICE),
-                        data.getString(DBConst.INVENTORY_COLUMN_EXPIRY_DATE)
+                        data.getInt(DBConst.INVENTORY_COLUMN_TOTAL_PRICE)
                 );
                 return inventory;
             }

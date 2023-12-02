@@ -8,16 +8,18 @@ import java.util.Map;
 
 public class UpdateTables {
 
+    CustomerItem customerItem = null;
+    OrderItem orderItem = null;
     OrderItemsTable orderItemsTable = OrderItemsTable.getInstance();
     OrdersTable ordersTable = OrdersTable.getInstance();
     InventoryTable inventoryTable = InventoryTable.getInstance();
     CustomerOrderTable customerOrderTable = CustomerOrderTable.getInstance();
     CustomerItemsTable customerItemsTable = CustomerItemsTable.getInstance();
     /**
-     * Create the order table
-     * The createOrder method returns the tables id
+     * Create the order table The createOrder method returns the tables id
      * loop through the itemMap and set values for the key and value
      * We create a new order item for each map entry
+     * @param {Map<Product, Integer> itemMap}
      */ 
     public void updateTables(Map<Product, Integer> itemMap) {
         long dateInMillis = System.currentTimeMillis();
@@ -31,7 +33,7 @@ public class UpdateTables {
             double price = quantity * product.getPrice();
             System.out.println(orderId + " " + product.getId() + " " + quantity + " " + price);
 
-            OrderItem orderItem = new OrderItem(
+            orderItem = new OrderItem(
                     orderId,
                     product.getId(),
                     quantity
@@ -61,7 +63,7 @@ public class UpdateTables {
             double price = quantity * product.getPrice();
             System.out.println(orderId + " " + productId + " " + quantity + " " + price);
 
-            CustomerItem customerItem  = new CustomerItem(
+            customerItem  = new CustomerItem(
                     orderId,
                     product.getId(),
                     quantity

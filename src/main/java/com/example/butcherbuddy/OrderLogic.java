@@ -62,10 +62,16 @@ public class OrderLogic {
         quantityList.add(numberInput);
     }
 
+    public void clearItems() {
+        productList.clear();
+    }
+
 
     /**
-     * Loop through productList and quantityList and
-     * adds their values to a HashMap with the product as the key and quantity as value
+     * Gets all values from the productList and quantityList hashMaps and adds them to a new
+     * hashMap where the product is the key and quantity is the value
+     * @return Map<Product, Integer> containing the selected products and quantities
+     * @author Evan Proulx
      */
     public Map<Product, Integer> accessInputValues() {
         for (int i = 0; i < productList.size(); i++) {
@@ -83,6 +89,14 @@ public class OrderLogic {
     }
 
 
+    /**
+     * Gets all records from the inventory and gets the name of their product through their product id.
+     * A new namedInventoryItem object is created and added to an arrayList.
+     * This is done so the name of the products in the tableView is displayed rather than their id.
+     *
+     * @return ArrayList<NamedInventory>
+     * @author Evan Proulx
+     */
     //Gets all items from the inventory table and converts them into NamedInventory objects
     //Now Items in the tableView have names instead of productIds
     public ArrayList<NamedInventory> getNamedInventory(){
@@ -101,20 +115,26 @@ public class OrderLogic {
         return newInventory;
     }
 
-    //Gets all items from the inventory table and converts them into NamedCategory objects
-    //Now Items in the tableView have names and categories
+    /**
+     * Gets all records from the product table and gets the name of their category through their category id.
+     * A new namedCategoryItem object is created and added to an arrayList.
+     * This is done so the name of the category in the tableView is displayed rather than their id.
+     *
+     * @return ArrayList<NamedCategory>
+     * @author Nathan Jamrog
+     */
     public ArrayList<NamedCategory> getNamedCategory(){
-        ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
-        ArrayList<Category> categories = categoryTable.getAllCategories();
         ArrayList<Product> products = productTable.getAllProducts();
 
         newCategory = new ArrayList<>();
         for (Product product : products){
+            int catId = product.getCategory();
             int id = product.getId();
             String productName = productTable.getProduct(id).getName();
+            String categoryName = categoryTable.getCategory(catId).getName();
             System.out.println(productName);
 
-            NamedCategory namedInventoryItem = new NamedCategory(product.getCategory(), productName, product.getPrice());
+            NamedCategory namedInventoryItem = new NamedCategory(categoryName, productName, product.getPrice());
             newCategory.add(namedInventoryItem);
             System.out.println("Named Inventory: " + namedInventoryItem);
         }

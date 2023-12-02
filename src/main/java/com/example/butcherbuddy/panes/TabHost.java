@@ -23,12 +23,13 @@ public class TabHost extends BorderPane {
         chartTab.setClosable(false);
 
 
-        tabPane.getTabs().addAll(formTab,customerFormTab, inventoryTab, manageProductTab, chartTab);
+        tabPane.getTabs().addAll(manageProductTab, formTab,customerFormTab, chartTab);
 
         //Refreshes the inventory table when the inventory tab is opened
         tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldTab, newTab) -> {
             if (oldTab != null){
                 inventoryTab.refreshTable();
+                customerFormTab.refreshTable();
             }
         });
 
