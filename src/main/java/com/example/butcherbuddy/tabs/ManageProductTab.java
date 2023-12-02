@@ -80,8 +80,6 @@ public class ManageProductTab extends Tab {
         Label priceLabel = new Label("Price");
         priceLabel.getStyleClass().add("label-text");
         TextField priceTextField = new TextField();
-//        VBox priceFieldVbox = new VBox();
-//        priceFieldVbox.getChildren().addAll(priceLabel, priceTextField);
 
         Text alertLabel = new Text("");
         alertLabel.getStyleClass().add("alert-text");
@@ -105,8 +103,6 @@ public class ManageProductTab extends Tab {
         ComboBox<Product> productComboBox = new ComboBox<>();
         productComboBox.setItems(FXCollections.observableArrayList(productTable.getAllProducts()));
         productComboBox.getSelectionModel().select(0);
-//        VBox productCombo = new VBox(15);
-//        productCombo.getChildren().addAll(productLabel, productComboBox);
 
         Button deleteBtn = new Button("Delete Item");
         deleteBtn.getStyleClass().add("button-style");
@@ -118,19 +114,18 @@ public class ManageProductTab extends Tab {
         deleteItemForm.getChildren().addAll(deleteItemLabel, productLabel, productComboBox, deleteBtn);
         deleteItemForm.setAlignment(Pos.CENTER);
 
-        VBox root = new VBox(40);
+        VBox container = new VBox(40);
+        container.setAlignment(Pos.CENTER);
+        container.getChildren().addAll(addItemForm, deleteItemForm);
+
+
+        HBox root = new HBox(110);
+        root.getChildren().addAll(tableViewVbox, container);
         root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(addItemForm, deleteItemForm);
-
-
-        HBox test = new HBox(20);
-        test.getChildren().addAll(tableViewVbox, root);
-        test.setAlignment(Pos.CENTER);
-
 
 
         this.setText("Manage Products");
-        this.setContent(test);
+        this.setContent(root);
 
         submit.setOnAction(event -> {
             String productName = nameTextField.getText();

@@ -34,10 +34,7 @@ public class FormTab extends Tab {
 
 
     private FormTab() {
-
         tableView = new TableView<>();
-
-        refreshTable();
 
         ObservableList<NamedInventory> inventoryData = FXCollections.observableArrayList();
 
@@ -62,7 +59,6 @@ public class FormTab extends Tab {
         tableViewVbox.getChildren().addAll(tableViewNameLabel, tableView);
         tableViewVbox.setAlignment(Pos.CENTER);
 
-
         VBox vBox = new VBox(20);
         vBox.setAlignment(Pos.CENTER);
         vBox.getStyleClass().add("vbox");
@@ -81,21 +77,20 @@ public class FormTab extends Tab {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.getStyleClass().add("scroll-pane");
 
-
         VBox container = new VBox(buttonHbox,alertText, scrollPane);
         container.setSpacing(20);
         container.setAlignment(Pos.CENTER);
 
-        HBox test = new HBox(50);
-        test.getChildren().addAll(tableViewVbox, container);
-        test.setAlignment(Pos.CENTER);
+        HBox root = new HBox(110);
+        root.getChildren().addAll(tableViewVbox, container);
+        root.setAlignment(Pos.CENTER);
 
         alertText.setVisible(false);
+
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
             orderLogic.addNewItem(vBox);
         });
-
 
         //Takes all items and sorts them into a Hashmap
         //Items in Hashmap are updated into the tables
@@ -107,11 +102,15 @@ public class FormTab extends Tab {
         });
 
         this.setText("Store Order Form");
-        this.setContent(test);
+        this.setContent(root);
     }
 
-
-    //Checks if the old inventory and new are the same. If not we update the table
+    /**
+     * Refreshes the TableView with the latest data in the inventory table.
+     * Retrieves the updated NamedInventory from the OrderLogic class, compares it with
+     * the current data in the TableView, and updates the table if changes are detected.
+     * @author Evan Proulx
+     */
     public void refreshTable() {
         ArrayList<NamedInventory> updatedInventory = orderLogic.getNamedInventory();
         System.out.println("Refreshing table......");
@@ -122,7 +121,11 @@ public class FormTab extends Tab {
         }
     }
 
-    //checks if the new inventory is equal to inventoryItems if not return false
+    /**
+     * Checks whether the new inventory in refreshTable() is equal to the current inventory
+     * @return false if the lists are equal and true if they are
+     * @author Evan Proulx
+     */
     private boolean isInventoryEqual(ArrayList<NamedInventory> updatedInventory) {
         if (namedInventory.size() != updatedInventory.size()) {
             return false;

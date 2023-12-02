@@ -26,7 +26,7 @@ public class CustomerFormTab extends Tab {
     private static CustomerFormTab instance;
     OrderLogic orderLogic = new OrderLogic();
     UpdateTables updateTables = new UpdateTables();
-    Text alertText = new Text("You've ordered more statusName's than we have!");
+    Text alertText = new Text("");
     Map<Product, Integer> itemMap;
     ArrayList<String> names;
     ArrayList<Double> values;
@@ -40,9 +40,7 @@ public class CustomerFormTab extends Tab {
 
 
     private CustomerFormTab() {
-
         alertText.setTextAlignment(TextAlignment.CENTER);
-
 
         tableView = new TableView<>();
 
@@ -70,14 +68,9 @@ public class CustomerFormTab extends Tab {
         tableViewVbox.setAlignment(Pos.CENTER);
 
 
-        VBox vBox = new VBox();
-        vBox.setSpacing(20);
+        VBox vBox = new VBox(20);
         vBox.setAlignment(Pos.CENTER);
         vBox.getStyleClass().add("vbox");
-
-        VBox ordersVBox = new VBox();
-        ordersVBox.setAlignment(Pos.CENTER);
-        ordersVBox.setSpacing(20);
 
         HBox buttonHbox = new HBox();
         Button newItem = new Button("Add Item");
@@ -86,8 +79,7 @@ public class CustomerFormTab extends Tab {
         submit.getStyleClass().add("button-style");
         buttonHbox.getChildren().addAll(newItem, submit);
         buttonHbox.setAlignment(Pos.CENTER);
-
-        vBox.getChildren().addAll(ordersVBox);
+        vBox.getChildren().addAll(buttonHbox);
 
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -95,19 +87,18 @@ public class CustomerFormTab extends Tab {
 
         scrollPane.getStyleClass().add("scroll-pane");
 
-        VBox vBox1 = new VBox(buttonHbox, alertText, scrollPane);
-        vBox1.setSpacing(20);
-//        vBox1.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
-        vBox1.setAlignment(Pos.CENTER);
+        VBox container = new VBox(buttonHbox, alertText, scrollPane);
+        container.setSpacing(20);
+        container.setAlignment(Pos.CENTER);
 
-        HBox test = new HBox(50);
-        test.getChildren().addAll(tableViewVbox, vBox1);
-        test.setAlignment(Pos.CENTER);
+        HBox root = new HBox(110);
+        root.getChildren().addAll(tableViewVbox, container);
+        root.setAlignment(Pos.CENTER);
 
-        alertText.setOpacity(0);
+        alertText.setVisible(false);
         //sets new item to the screen on each button click
         newItem.setOnMouseClicked(event -> {
-            orderLogic.addNewItem(ordersVBox);
+            orderLogic.addNewItem(vBox);
        });
 
         //Takes all items and sorts them into a Hashmap
@@ -120,7 +111,7 @@ public class CustomerFormTab extends Tab {
         });
 
         this.setText("Customer Order Form");
-        this.setContent(test);
+        this.setContent(root);
     }
 
 
@@ -136,7 +127,12 @@ public class CustomerFormTab extends Tab {
             alertText.setOpacity(1);
         }
     }
-
+    /**
+     * Refreshes the TableView with the latest data in the inventory table.
+     * Retrieves the updated NamedInventory from the OrderLogic class, compares it with
+     * the current data in the TableView, and updates the table if changes are detected.
+     * @author Evan Proulx
+     */
     public void refreshTable() {
         ArrayList<NamedInventory> updatedInventory = orderLogic.getNamedInventory();
         System.out.println("Refreshing table......");
@@ -147,7 +143,10 @@ public class CustomerFormTab extends Tab {
         }
     }
 
-    //checks if the new inventory is equal to inventoryItems if not return false
+    /**
+     * Checks whether the new inventory in refreshTable() is equal to the current inventory
+     * @return false if the lists are equal and true if they are
+     */
     private boolean isInventoryEqual(ArrayList<NamedInventory> updatedInventory) {
         if (namedInventory.size() != updatedInventory.size()) {
             return false;

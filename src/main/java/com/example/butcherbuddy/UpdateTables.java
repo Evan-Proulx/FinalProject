@@ -16,10 +16,10 @@ public class UpdateTables {
     CustomerOrderTable customerOrderTable = CustomerOrderTable.getInstance();
     CustomerItemsTable customerItemsTable = CustomerItemsTable.getInstance();
     /**
-     * Create the order table
-     * The createOrder method returns the tables id
+     * Create the order table The createOrder method returns the tables id
      * loop through the itemMap and set values for the key and value
      * We create a new order item for each map entry
+     * @param {Map<Product, Integer> itemMap}
      */ 
     public void updateTables(Map<Product, Integer> itemMap) {
         long dateInMillis = System.currentTimeMillis();
