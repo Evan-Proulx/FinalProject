@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class FormTab extends Tab {
+
     OrderLogic orderLogic = new OrderLogic();
     Text alertText = new Text("");
 
@@ -63,7 +64,8 @@ public class FormTab extends Tab {
         vBox.setAlignment(Pos.CENTER);
         vBox.getStyleClass().add("vbox");
 
-        HBox buttonHbox = new HBox();
+
+        HBox buttonHbox = new HBox(20);
         Button newItem = new Button("Add Item");
         Button submit = new Button("Submit Order");
         newItem.getStyleClass().add("button-style");

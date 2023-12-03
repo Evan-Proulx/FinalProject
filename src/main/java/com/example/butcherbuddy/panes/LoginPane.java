@@ -25,7 +25,7 @@ public class LoginPane extends BorderPane {
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.TOP_CENTER);
-        vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
+        vBox.setBackground(new Background(new BackgroundFill(Color.web("#4d4d4d"), CornerRadii.EMPTY, Insets.EMPTY)));
 
 
         System.out.println("CREATING TABLE");

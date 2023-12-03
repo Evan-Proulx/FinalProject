@@ -105,10 +105,11 @@ public class OrderLogic {
 
         for (Inventory inventory : inventories){
             int id = inventory.getProductId();
+            double price = productTable.getProduct(id).getPrice();
             String productName = productTable.getProduct(id).getName();
             System.out.println(productName);
 
-            NamedInventory namedInventoryItem = new NamedInventory(productName, inventory.getQuantity(), inventory.getTotalPrice());
+            NamedInventory namedInventoryItem = new NamedInventory(productName, inventory.getQuantity(), price);
             newInventory.add(namedInventoryItem);
             System.out.println("Named Inventory: " + namedInventoryItem);
         }

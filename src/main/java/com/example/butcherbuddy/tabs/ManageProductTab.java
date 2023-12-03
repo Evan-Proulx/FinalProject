@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class ManageProductTab extends Tab {
+
     OrderLogic orderLogic = new OrderLogic();
     private static ManageProductTab instance;
     CategoryTable categoryTable = CategoryTable.getInstance();
@@ -124,6 +125,7 @@ public class ManageProductTab extends Tab {
         root.setAlignment(Pos.CENTER);
 
 
+
         this.setText("Manage Products");
         this.setContent(root);
 
@@ -183,6 +185,7 @@ public class ManageProductTab extends Tab {
 
             handleDelete(selectedProduct);
             refreshTable();
+
         });
 
     }

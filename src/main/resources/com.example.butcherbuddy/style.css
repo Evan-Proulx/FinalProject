@@ -4,6 +4,37 @@
    -fx-background-color: #4B0907;
 }
 
+.tab {
+   -fx-background-color: #b8b8b8;
+}
+
+.tab:hover {
+   -fx-background-color: #404040;
+}
+
+.tab:hover .tab-label{
+    -fx-text-fill: #c4c4c4;
+}
+
+.tab:selected {
+    -fx-background-color: #4d4d4d;
+    -fx-focus-color: transparent;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: #fff;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #7d7d7d;
+    -fx-font-size: 10px;
+    -fx-font-family: 'Roboto Mono';
+    -fx-font-weight: bold;
+}
+
+
+
 .title-text {
     -fx-font-family: 'Shrikhand';
     -fx-font-size: 48px;
@@ -45,12 +76,18 @@
 }
 
 .button-style{
--fx-background-color: #242424;
-    -fx-border-width: 2;
-    -fx-border-color: #ffffff;
+-fx-background-color: #404040;
     -fx-font-family: 'Roboto Mono';
     -fx-font-size: 10pt;
     -fx-text-fill: #fff;
+    -fx-border-radius: 2pt
+}
+
+.button-style:hover{
+-fx-background-color: #b8b8b8;
+    -fx-font-family: 'Roboto Mono';
+    -fx-font-size: 10pt;
+    -fx-text-fill: #242424;
     -fx-border-radius: 2pt
 }
 

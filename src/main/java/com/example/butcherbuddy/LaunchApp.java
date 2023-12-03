@@ -1,5 +1,6 @@
 package com.example.butcherbuddy;
 
+import com.example.butcherbuddy.database.Database;
 import com.example.butcherbuddy.pojo.Login;
 import com.example.butcherbuddy.scenes.DatabaseLoginScene;
 import com.example.butcherbuddy.scenes.LoginScene;
@@ -26,20 +27,24 @@ public class LaunchApp extends Application {
         String databaseStored = null;
         String usernameStored = null;
         String passwordStored = null;
+        String hostStored = null;
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(DBC))){
+            hostStored = bufferedReader.readLine();
             databaseStored = bufferedReader.readLine();
             usernameStored = bufferedReader.readLine();
             passwordStored = bufferedReader.readLine();
-            System.out.println("Attempting login with database user " + usernameStored + " to location " + databaseStored + " with password " + passwordStored);
+            System.out.println("Attempting login with database: " + hostStored + " with user " + usernameStored + " to location " + databaseStored + " with password " + passwordStored);
             try{
+                Database database = Database.getInstance();
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager
-                        .getConnection("jdbc:mysql://localhost/"+ databaseStored +
+                        .getConnection("jdbc:mysql://" + hostStored + "/"+ databaseStored +
                                         "?serverTimezone=UTC",
                                 usernameStored,
                                 passwordStored);
                 System.out.println("Connection Successfully created");
+                database.setLoginInfo(hostStored,databaseStored,usernameStored,passwordStored);
                 mainStage.setScene(new TabHostScene());
             }catch (Exception e){
                 System.out.println(e);

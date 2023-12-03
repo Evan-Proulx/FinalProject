@@ -2,6 +2,7 @@ package com.example.butcherbuddy.panes;
 
 import com.example.butcherbuddy.LaunchApp;
 import com.example.butcherbuddy.OrderLogic;
+import com.example.butcherbuddy.database.Database;
 import com.example.butcherbuddy.pojo.Login;
 import com.example.butcherbuddy.scenes.LoginScene;
 import com.example.butcherbuddy.scenes.TabHostScene;
@@ -45,7 +46,7 @@ public class DatabaseLoginPane extends BorderPane {
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.TOP_CENTER);
-        vBox.setBackground(new Background(new BackgroundFill(Color.web("#18191a"), CornerRadii.EMPTY, Insets.EMPTY)));
+        vBox.setBackground(new Background(new BackgroundFill(Color.web("#4d4d4d"), CornerRadii.EMPTY, Insets.EMPTY)));
 
 
         HBox hBox = new HBox();
@@ -56,6 +57,14 @@ public class DatabaseLoginPane extends BorderPane {
         title.setFill(Color.WHITE);
         title.getStyleClass().add("title-text");
         VBox.setMargin(title, new Insets(80, 0, 80, 0)); // Insets: top, right, bottom, left
+
+        Text databaseHostNameLabel = new Text("Enter Database Host Name");
+        databaseHostNameLabel.setFill(Color.WHITE);
+        databaseHostNameLabel.getStyleClass().add("label-text");
+
+        TextField databaseHostName = new TextField();
+        databaseHostName.setPromptText("Enter text here");
+        databaseHostName.getStyleClass().add("text-field");
 
         Text databaseLocationLabel = new Text("Enter Database Location");
         databaseLocationLabel.setFill(Color.WHITE);
@@ -103,7 +112,7 @@ public class DatabaseLoginPane extends BorderPane {
         imageView2.setImage(knife2);
 
         hBox.getChildren().addAll(imageView, imageView2);
-        vBox.getChildren().addAll(title,databaseLocationLabel,databaseLocation,usernameLabel,userName,passwordLabel,password,submitButton,errorLabel, hBox);
+        vBox.getChildren().addAll(title, databaseHostNameLabel, databaseHostName,databaseLocationLabel,databaseLocation,usernameLabel,userName,passwordLabel,password,submitButton,errorLabel, hBox);
         this.setCenter(vBox);
 
 
@@ -148,21 +157,19 @@ public class DatabaseLoginPane extends BorderPane {
                 String databaseInput = databaseLocation.getText();
                 String usernameInput = userName.getText();
                 String passwordInput = password.getText();
+                String hostInput = databaseHostName.getText();
+                Database database = Database.getInstance();
+
 
                 try{
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    connection = DriverManager
-                            .getConnection("jdbc:mysql://localhost/"+ databaseInput +
-                                            "?serverTimezone=UTC",
-                                    usernameInput,
-                                    passwordInput);
+                    database.setLoginInfo(hostInput,databaseInput,usernameInput,passwordInput);
                     System.out.println("Connection Successfully created");
                     LaunchApp.mainStage.setScene(new TabHostScene());
                     try {
                         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(DBC));
                         BufferedReader bufferedReader = new BufferedReader(new FileReader(DBC));
                         if ((bufferedReader.readLine()) == null) {
-                            String info = databaseInput + "\n" + usernameInput + "\n" + passwordInput;
+                            String info = hostInput + "\n" + databaseInput + "\n" + usernameInput + "\n" + passwordInput;
                             bufferedWriter.write(info);
                             System.out.println("stored database login:\n" + info);
                             bufferedReader.close();

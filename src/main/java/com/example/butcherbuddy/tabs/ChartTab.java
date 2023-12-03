@@ -35,6 +35,7 @@ public class ChartTab extends Tab {
     private ChartTab() {
         BorderPane root = new BorderPane();
 
+
         xAxis.setLabel("Products");
         yAxis.setLabel("Amount");
 

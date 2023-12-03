@@ -4,6 +4,7 @@ package com.example.butcherbuddy.database;
 import com.example.butcherbuddy.database.DBConfig;
 import com.example.butcherbuddy.database.DBConst;
 
+import java.io.*;
 import java.sql.*;
 
 import static com.example.butcherbuddy.database.DBConfig.*;
@@ -14,19 +15,35 @@ public class Database {
 
     private Connection connection = null;
 
-    private Database(){
-            try{
+
+    private Database() {
+
+    }
+
+    private Database(String host, String location, String username, String password) {
+
+        try{
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager
-                        .getConnection("jdbc:mysql://localhost/"+ DB_NAME +
+                        .getConnection("jdbc:mysql://" + host + "/"+ location +
                                         "?serverTimezone=UTC",
-                                DB_USER,
-                                DB_PASS);                System.out.println("Connection Successfully created");
+                                username,
+                                password);                System.out.println("Connection Successfully created");
             }catch (Exception e){
                 e.printStackTrace();
             }
+        }
 
+        public void setLoginInfo(String host, String location, String username, String password) {
             try{
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager
+                        .getConnection("jdbc:mysql://" + host + "/"+ location +
+                                        "?serverTimezone=UTC",
+                                username,
+                                password);
+                System.out.println("Connection Successfully created");
+
                 createTable(DBConst.TABLE_CATEGORY, DBConst.CREATE_TABLE_CATEGORY, connection);
                 createTable(DBConst.TABLE_PRODUCT, DBConst.CREATE_TABLE_PRODUCT, connection);
                 createTable(DBConst.TABLE_ORDERS, DBConst.CREATE_TABLE_ORDERS, connection);
@@ -40,7 +57,10 @@ public class Database {
             }
         }
 
-    public static Database getInstance(){
+
+
+
+    public static Database getInstance() {
         if (instance == null){
             instance = new Database();
         }

@@ -72,7 +72,8 @@ public class CustomerFormTab extends Tab {
         vBox.setAlignment(Pos.CENTER);
         vBox.getStyleClass().add("vbox");
 
-        HBox buttonHbox = new HBox();
+
+        HBox buttonHbox = new HBox(20);
         Button newItem = new Button("Add Item");
         Button submit = new Button("Submit Order");
         newItem.getStyleClass().add("button-style");
