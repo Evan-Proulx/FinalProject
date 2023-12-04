@@ -103,9 +103,9 @@
     -fx-border-width: 0;
 }
 
-.vbox {
-    -fx-padding: 40 0 40 0;
-    -fx-margin: 0 200 0 200;
+.vbox-order {
+    -fx-padding: 40;
+    -fx-margin: 10 200 10 200;
      -fx-alignment: center;
 }
 

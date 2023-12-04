@@ -100,7 +100,10 @@ public class FormTab extends Tab {
             Map<Product, Integer> itemMap = orderLogic.accessInputValues();
             updateTables.updateTables(itemMap);
             itemMap.clear();
+            orderLogic.clearItems();
             refreshTable();
+            vBox.getChildren().clear();
+
         });
 
         this.setText("Store Order Form");

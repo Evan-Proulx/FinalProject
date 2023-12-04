@@ -39,7 +39,7 @@ public class OrderLogic {
         infoGroup.setAlignment(Pos.CENTER);
         infoGroup.setSpacing(10);
         infoGroup.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-        infoGroup.getStyleClass().add("vbox");
+        infoGroup.getStyleClass().add("vbox-order");
 
         Text title = new Text("Create an Order");
         Text product = new Text("Product:");
@@ -64,6 +64,7 @@ public class OrderLogic {
 
     public void clearItems() {
         productList.clear();
+        quantityList.clear();
     }
 
 

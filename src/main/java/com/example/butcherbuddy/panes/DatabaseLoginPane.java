@@ -56,7 +56,7 @@ public class DatabaseLoginPane extends BorderPane {
         Text title = new Text("Butcher Buddy");
         title.setFill(Color.WHITE);
         title.getStyleClass().add("title-text");
-        VBox.setMargin(title, new Insets(80, 0, 80, 0)); // Insets: top, right, bottom, left
+        VBox.setMargin(title, new Insets(20, 0, 80, 0)); // Insets: top, right, bottom, left
 
         Text databaseHostNameLabel = new Text("Enter Database Host Name");
         databaseHostNameLabel.setFill(Color.WHITE);

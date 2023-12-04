@@ -44,6 +44,8 @@ public class Database {
                                 password);
                 System.out.println("Connection Successfully created");
 
+
+
                 createTable(DBConst.TABLE_CATEGORY, DBConst.CREATE_TABLE_CATEGORY, connection);
                 createTable(DBConst.TABLE_PRODUCT, DBConst.CREATE_TABLE_PRODUCT, connection);
                 createTable(DBConst.TABLE_ORDERS, DBConst.CREATE_TABLE_ORDERS, connection);
@@ -90,6 +92,8 @@ public class Database {
             System.out.println("The " + tableName + " table has been created");
         }
     }
+
+
 }
 
 

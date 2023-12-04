@@ -108,7 +108,9 @@ public class CustomerFormTab extends Tab {
             alertText.setOpacity(0);
             submitOrder();
             itemMap.clear();
+            orderLogic.clearItems();
             refreshTable();
+            vBox.getChildren().clear();
         });
 
         this.setText("Customer Order Form");
