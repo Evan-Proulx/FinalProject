@@ -98,8 +98,6 @@ public class OrderLogic {
      * @return ArrayList<NamedInventory>
      * @author Evan Proulx
      */
-    //Gets all items from the inventory table and converts them into NamedInventory objects
-    //Now Items in the tableView have names instead of productIds
     public ArrayList<NamedInventory> getNamedInventory(){
         ArrayList<Inventory> inventories = inventoryTable.getAllInventories();
         newInventory = new ArrayList<>();
