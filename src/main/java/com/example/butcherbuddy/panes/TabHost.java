@@ -35,7 +35,6 @@ public class TabHost extends BorderPane {
         tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldTab, newTab) -> {
             if (oldTab != null){
                 formTab.refreshTable();
-                manageProductTab.refreshTable();
                 customerFormTab.refreshTable();
             }
         }); //may cause lag on lower end pcs

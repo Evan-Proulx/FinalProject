@@ -1,13 +1,11 @@
 package com.example.butcherbuddy.database;
 
 
-import com.example.butcherbuddy.database.DBConfig;
 import com.example.butcherbuddy.database.DBConst;
 
 import java.io.*;
 import java.sql.*;
 
-import static com.example.butcherbuddy.database.DBConfig.*;
 
 public class Database {
 
